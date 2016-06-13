@@ -3,6 +3,7 @@
 /*.ids
 /*.ipr
 /*.iws
+/_buildr.rb
 /artifacts
 /config/application.yml
 /config/database.yml
