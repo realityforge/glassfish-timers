@@ -1,0 +1,40 @@
+{
+  "environment_vars": {
+    "TIMERS_DB_HOST": null,
+    "TIMERS_DB_PORT": 1433,
+    "TIMERS_DB_DATABASE": null,
+    "TIMERS_DB_USERNAME": "timers",
+    "TIMERS_DB_PASSWORD": null
+  },
+  "properties": {
+    "configs.config.server-config.ejb-container.ejb-timer-service.timer-datasource": "system/jdbc/Timers"
+  },
+  "jdbc_connection_pools": {
+    "system/jdbc/TimersConnectionPool": {
+      "datasourceclassname": "net.sourceforge.jtds.jdbcx.JtdsDataSource",
+      "restype": "javax.sql.DataSource",
+      "isconnectvalidatereq": "true",
+      "validationmethod": "auto-commit",
+      "ping": "true",
+      "description": "Timers connection pool for EJB Timers subsystem",
+      "properties": {
+        "ServerName": "${TIMERS_DB_HOST}",
+        "User": "${TIMERS_DB_USERNAME}",
+        "Password": "${TIMERS_DB_PASSWORD}",
+        "PortNumber": "${TIMERS_DB_PORT}",
+        "DatabaseName": "${TIMERS_DB_DATABASE}",
+        "AppName": "timers",
+        "ProgName": "GlassFish",
+        "SocketTimeout": "1200",
+        "LoginTimeout": "60",
+        "SocketKeepAlive": "true",
+        "jdbc30DataSource": "true"
+      },
+      "resources": {
+        "system/jdbc/Timers": {
+          "description": "Timers resource for EJB Timers subsystem"
+        }
+      }
+    }
+  }
+}
