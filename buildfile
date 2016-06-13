@@ -20,6 +20,7 @@ BuildrPlus::Roles.project('glassfish-timers') do
   define 'domain' do
     project.no_iml
     package(:json).enhance do |t|
+      FileUtils.mkdir_p File.dirname(t.to_s)
       FileUtils.cp File.dirname(__FILE__) + '/src/main/etc/redfish.json', t.to_s
     end
   end
