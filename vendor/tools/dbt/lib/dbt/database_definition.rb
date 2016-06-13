@@ -37,7 +37,7 @@ class Dbt #nodoc
           @search_dirs = @migrations_dir_name = @migrations_applied_at_create =
             @rake_integration = @separate_import_task = @import_task_as_part_of_create =
               @datasets_dir_name = @fixture_dir_name = @local_repository = @packaged =
-                @database_environment_filter = @import_assert_filters = nil
+                @database_environment_filter = @import_assert_filters = @managed = nil
 
       @pre_db_artifacts = []
       @post_db_artifacts = []
@@ -104,6 +104,12 @@ class Dbt #nodoc
 
     def packaged?
       @packaged.nil? ? false : @packaged
+    end
+
+    attr_writer :extra_actions
+
+    def extra_actions
+      @extra_actions ||= []
     end
 
     def task_prefix
