@@ -1,0 +1,11 @@
+**/generated
+*.iml
+/*.ids
+/*.ipr
+/*.iws
+/artifacts
+/config/database.yml
+/config/local.sh
+/reports
+/target
+/tmp
