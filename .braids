@@ -1,0 +1,23 @@
+{
+  "vendor/docs/way_of_stock": {
+    "url": "https://github.com/stocksoftware/way_of_stock.git",
+    "remote": "master/braid/vendor/docs/way_of_stock",
+    "branch": "master",
+    "squashed": true,
+    "revision": "38514853b3ec5b95ff79a8875a7bbccbec0db357"
+  },
+  "vendor/tools/buildr_plus": {
+    "url": "https://github.com/realityforge/buildr_plus.git",
+    "remote": "master/braid/vendor/tools/buildr_plus",
+    "branch": "master",
+    "squashed": true,
+    "revision": "1fc48e341f3aa8bc630febbff2f5ca06f06b1176"
+  },
+  "vendor/tools/dbt": {
+    "branch": "master",
+    "remote": "master/braid/vendor/tools/dbt",
+    "revision": "c1f4f8a535f39142d33ff078b119238cf2c76394",
+    "squashed": true,
+    "url": "https://github.com/realityforge/dbt.git"
+  }
+}
