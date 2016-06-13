@@ -98,12 +98,7 @@ BuildrPlus::FeatureManager.feature(:ci) do |f|
       desc 'Setup test environment'
       task 'ci:setup' => %w(ci:common_setup) do
         if dbt_present && ci_config_exist
-          database_config = if !BuildrPlus::Db.is_multi_database_project? || BuildrPlus::Db.mssql?
-            'config/ci-database.yml'
-          else
-            # Assume that a multi database project defaults to sql server and has second yml for pg
-            'config/ci-pg-database.yml'
-          end
+          database_config = 'config/ci-database.yml'
           Dbt::Config.config_filename = database_config
           SSRS::Config.config_filename = database_config if BuildrPlus::FeatureManager.activated?(:rptman)
           ENV['DATABASE_YML'] = database_config if BuildrPlus::FeatureManager.activated?(:rails)
@@ -220,6 +215,16 @@ BuildrPlus::FeatureManager.feature(:ci) do |f|
       if BuildrPlus::FeatureManager.activated?(:gitignore)
         commit_actions << 'gitignore:check'
         pull_request_actions << 'gitignore:check'
+      end
+
+      if BuildrPlus::FeatureManager.activated?(:oss)
+        commit_actions << 'oss:check'
+        pull_request_actions << 'oss:check'
+      end
+
+      if BuildrPlus::FeatureManager.activated?(:travis)
+        commit_actions << 'travis:check'
+        pull_request_actions << 'travis:check'
       end
 
       desc 'Perform pre-commit checks and source code analysis'

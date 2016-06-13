@@ -12,14 +12,24 @@
 # limitations under the License.
 #
 
-if BuildrPlus::Roles.default_role
-  projects = BuildrPlus::Roles.projects.select { |p| !p.template? }
-  projects[0].roles << BuildrPlus::Roles.default_role if projects.size == 1 && projects[0].roles.empty?
+module BuildrPlus #nodoc
+  module Config #nodoc
+    class BrokerConfig < BuildrPlus::BaseElement
+      attr_accessor :prefix
+      attr_accessor :host
+      attr_accessor :port
+      attr_accessor :admin_username
+      attr_accessor :admin_password
+
+      def to_h
+        {
+          'host' => self.host || '',
+          'port' => self.port || '',
+          'admin_username' => self.admin_username || '',
+          'admin_password' => self.admin_password || '',
+          'prefix' => self.prefix || '',
+        }
+      end
+    end
+  end
 end
-
-BuildrPlus::Roles.define_top_level_projects
-
-# Force the materialization of projects so the
-# redfish tasks config has been set up
-Buildr.projects
-Redfish::Buildr.define_tasks_for_domains if BuildrPlus::FeatureManager.activated?(:redfish)

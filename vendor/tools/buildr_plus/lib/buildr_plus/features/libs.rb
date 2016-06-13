@@ -33,7 +33,7 @@ BuildrPlus::FeatureManager.feature(:libs) do |f|
 
     # Support geo libraries for geolatte
     def geolatte_support
-      self.jts + self.geotools_for_geolatte + self.slf4j
+      self.jts + self.slf4j
     end
 
     def geolatte_geom
@@ -53,7 +53,7 @@ BuildrPlus::FeatureManager.feature(:libs) do |f|
     end
 
     def glassfish_embedded
-      %w(fish.payara.extras:payara-embedded-all:jar:4.1.1.154)
+      %w(fish.payara.extras:payara-embedded-all:jar:4.1.1.162)
     end
 
     def eclipselink
@@ -150,7 +150,7 @@ BuildrPlus::FeatureManager.feature(:libs) do |f|
     end
 
     def replicant_client
-      self.gwt_gin + self.replicant + self.gwt_property_source + self.gwt_datatypes + self.gwt_webpoller
+      self.replicant + self.gwt_property_source + self.gwt_datatypes + self.gwt_webpoller
     end
 
     def replicant_server
@@ -178,7 +178,7 @@ BuildrPlus::FeatureManager.feature(:libs) do |f|
     end
 
     def guiceyloops_gwt
-      %w(org.realityforge.guiceyloops:guiceyloops:jar:0.69) + self.mockito + self.guice + self.testng
+      %w(org.realityforge.guiceyloops:guiceyloops:jar:0.74) + self.mockito + self.guice + self.testng
     end
 
     def slf4j
@@ -201,8 +201,14 @@ BuildrPlus::FeatureManager.feature(:libs) do |f|
       %w(org.postgresql:postgresql:jar:9.2-1003-jdbc4)
     end
 
+    def postgis
+      %w(org.postgis:postgis-jdbc:jar:1.3.3)
+    end
+
     def db_drivers
-      (BuildrPlus::Db.tiny_tds_defined? ? self.jtds : []) + (BuildrPlus::Db.pg_defined? ? self.postgresql : [])
+      return self.jtds if BuildrPlus::Db.tiny_tds_defined?
+      return self.postgresql + (BuildrPlus::FeatureManager.activated?(:geolatte) ? self.postgis : []) if BuildrPlus::Db.pg_defined?
+      []
     end
   end
 end

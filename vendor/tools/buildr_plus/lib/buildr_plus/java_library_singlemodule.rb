@@ -12,14 +12,11 @@
 # limitations under the License.
 #
 
-if BuildrPlus::Roles.default_role
-  projects = BuildrPlus::Roles.projects.select { |p| !p.template? }
-  projects[0].roles << BuildrPlus::Roles.default_role if projects.size == 1 && projects[0].roles.empty?
-end
+require 'buildr_plus/java'
 
-BuildrPlus::Roles.define_top_level_projects
+BuildrPlus::Dbt.library = true
+BuildrPlus::Artifacts.library = true
+BuildrPlus::Artifacts.war = false
 
-# Force the materialization of projects so the
-# redfish tasks config has been set up
-Buildr.projects
-Redfish::Buildr.define_tasks_for_domains if BuildrPlus::FeatureManager.activated?(:redfish)
+BuildrPlus::Roles.default_role = :all_in_one_library
+BuildrPlus::ExtensionRegistry.auto_activate!

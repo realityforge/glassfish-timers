@@ -179,8 +179,13 @@ BuildrPlus::FeatureManager.feature(:checkstyle) do |f|
       g = project.group_as_package
       r.rule('edu.umd.cs.findbugs.annotations.SuppressFBWarnings', :rule_type => :class)
       r.rule('edu.umd.cs.findbugs.annotations.SuppressWarnings', :rule_type => :class, :disallow => true)
+      r.rule('javax.faces.bean', :disallow => true)
 
       r.rule('java.util')
+
+      if BuildrPlus::FeatureManager.activated?(:appconfig)
+        r.rule("#{g}.shared.#{project.name_as_class}FeatureFlags", :rule_type => :class)
+      end
 
       if BuildrPlus::FeatureManager.activated?(:gwt)
         r.subpackage_rule('client', 'org.realityforge.gwt.datatypes.client.date')

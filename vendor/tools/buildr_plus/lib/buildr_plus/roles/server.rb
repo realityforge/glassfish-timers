@@ -14,7 +14,8 @@
 
 BuildrPlus::Roles.role(:server) do
   if BuildrPlus::FeatureManager.activated?(:domgen)
-    generators = [:ee_web_xml, :ee_beans_xml]
+    generators = [:ee_beans_xml]
+    generators << [:ee_web_xml] if BuildrPlus::Artifacts.war?
     if BuildrPlus::FeatureManager.activated?(:db)
       generators << [:jpa_dao_test]
 
@@ -42,6 +43,7 @@ BuildrPlus::Roles.role(:server) do
     generators << [:jaxrs] if BuildrPlus::FeatureManager.activated?(:jaxrs)
     generators << [:appcache] if BuildrPlus::FeatureManager.activated?(:appcache)
     generators << [:mail_mail_queue, :mail_test_module] if BuildrPlus::FeatureManager.activated?(:mail)
+    generators << [:syncrecord_abstract_service, :syncrecord_control_rest_service] if BuildrPlus::FeatureManager.activated?(:syncrecord)
 
     generators += project.additional_domgen_generators
 
@@ -95,15 +97,17 @@ BuildrPlus::Roles.role(:server) do
     it.should_not contain('**/*.sass')
   end if BuildrPlus::FeatureManager.activated?(:sass)
 
-  iml.add_ejb_facet if BuildrPlus::FeatureManager.activated?(:ejb)
+  project.iml.add_ejb_facet if BuildrPlus::FeatureManager.activated?(:ejb)
   webroots = {}
   webroots[_(:source, :main, :webapp)] = '/'
   webroots[_(:source, :main, :webapp_local)] = '/' if BuildrPlus::FeatureManager.activated?(:gwt)
-  assets.paths.each do |path|
+
+  project.assets.paths.each do |path|
     next if path.to_s =~ /generated\/gwt\// && BuildrPlus::FeatureManager.activated?(:gwt)
     next if path.to_s =~ /generated\/less\// && BuildrPlus::FeatureManager.activated?(:less)
     next if path.to_s =~ /generated\/sass\// && BuildrPlus::FeatureManager.activated?(:sass)
     webroots[path.to_s] = '/'
   end
-  iml.add_web_facet(:webroots => webroots)
+
+  project.iml.add_web_facet(:webroots => webroots)
 end

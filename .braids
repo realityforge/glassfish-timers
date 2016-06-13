@@ -11,7 +11,7 @@
     "remote": "master/braid/vendor/tools/buildr_plus",
     "branch": "master",
     "squashed": true,
-    "revision": "1fc48e341f3aa8bc630febbff2f5ca06f06b1176"
+    "revision": "b0c06451435877ea2d8dc53679ea40e29b4836a6"
   },
   "vendor/tools/dbt": {
     "branch": "master",

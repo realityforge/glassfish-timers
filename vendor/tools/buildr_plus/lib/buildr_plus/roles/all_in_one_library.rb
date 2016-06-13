@@ -12,7 +12,7 @@
 # limitations under the License.
 #
 
-BuildrPlus::Roles.role(:all_in_one) do
+BuildrPlus::Roles.role(:all_in_one_library) do
   project.publish = true
 
   if BuildrPlus::FeatureManager.activated?(:domgen)
@@ -47,8 +47,6 @@ BuildrPlus::Roles.role(:all_in_one) do
     generators << [:appconfig_feature_flag_container] if BuildrPlus::FeatureManager.activated?(:appconfig)
     generators << [:syncrecord_datasources, :syncrecord_abstract_service, :syncrecord_control_rest_service] if BuildrPlus::FeatureManager.activated?(:syncrecord)
 
-    generators << [:ee_redfish] if BuildrPlus::FeatureManager.activated?(:redfish)
-
     generators += project.additional_domgen_generators
 
     Domgen::Build.define_generate_task(generators.flatten, :buildr_project => project)
@@ -57,7 +55,7 @@ BuildrPlus::Roles.role(:all_in_one) do
   compile.with BuildrPlus::Libs.ee_provided
   compile.with BuildrPlus::Libs.glassfish_embedded if BuildrPlus::FeatureManager.activated?(:soap) || BuildrPlus::FeatureManager.activated?(:db)
 
-  compile.with artifacts(Object.const_get(:PACKAGED_DEPS)) if Object.const_defined?(:PACKAGED_DEPS)
+  compile.with artifacts(Object.const_get(:LIBRARY_DEPS)) if Object.const_defined?(:LIBRARY_DEPS)
   compile.with BuildrPlus::Deps.model_deps
   compile.with BuildrPlus::Deps.server_deps
 
@@ -65,46 +63,11 @@ BuildrPlus::Roles.role(:all_in_one) do
             BuildrPlus::Libs.db_drivers
   test.with BuildrPlus::Deps.model_qa_support_deps
 
-  package(:war).tap do |war|
-    war.libs.clear
-    war.libs << artifacts(Object.const_get(:PACKAGED_DEPS)) if Object.const_defined?(:PACKAGED_DEPS)
-    war.libs << BuildrPlus::Deps.model_deps
-    war.libs << BuildrPlus::Deps.server_deps
-    war.exclude project.less_path if BuildrPlus::FeatureManager.activated?(:less)
-    if BuildrPlus::FeatureManager.activated?(:sass)
-      project.sass_paths.each do |sass_path|
-        war.exclude project._(sass_path)
-      end
-    end
-    war.include assets.to_s, :as => '.' if BuildrPlus::FeatureManager.activated?(:gwt) || BuildrPlus::FeatureManager.activated?(:less) || BuildrPlus::FeatureManager.activated?(:sass)
-  end
-
-  check package(:war), 'should contain generated gwt artifacts' do
-    it.should contain("#{project.root_project.name}/#{project.root_project.name}.nocache.js")
-  end if BuildrPlus::FeatureManager.activated?(:gwt) && BuildrPlus::FeatureManager.activated?(:user_experience)
-  check package(:war), 'should contain web.xml' do
-    it.should contain('WEB-INF/web.xml')
-  end
-  check package(:war), 'should not contain less files' do
-    it.should_not contain('**/*.less')
-  end if BuildrPlus::FeatureManager.activated?(:less)
-  check package(:war), 'should not contain sass files' do
-    it.should_not contain('**/*.sass')
-  end if BuildrPlus::FeatureManager.activated?(:sass)
+  package(:jar)
+  package(:sources)
 
   iml.add_jpa_facet if BuildrPlus::FeatureManager.activated?(:db)
   iml.add_ejb_facet if BuildrPlus::FeatureManager.activated?(:ejb)
-
-  webroots = {}
-  webroots[_(:source, :main, :webapp)] = '/'
-  webroots[_(:source, :main, :webapp_local)] = '/' if BuildrPlus::FeatureManager.activated?(:gwt)
-  assets.paths.each do |path|
-    next if path.to_s =~ /generated\/gwt\// && BuildrPlus::FeatureManager.activated?(:gwt)
-    next if path.to_s =~ /generated\/less\// && BuildrPlus::FeatureManager.activated?(:less)
-    next if path.to_s =~ /generated\/sass\// && BuildrPlus::FeatureManager.activated?(:sass)
-    webroots[path.to_s] = '/'
-  end
-  iml.add_web_facet(:webroots => webroots)
 
   default_testng_args = []
   default_testng_args << '-ea'
@@ -138,43 +101,4 @@ BuildrPlus::Roles.role(:all_in_one) do
   default_testng_args.concat(BuildrPlus::Glassfish.addtional_default_testng_args)
 
   ipr.add_default_testng_configuration(:jvm_args => default_testng_args.join(' '))
-
-  dependencies = [project]
-  dependencies << Object.const_get(:PACKAGED_DEPS) if Object.const_defined?(:PACKAGED_DEPS)
-  dependencies << BuildrPlus::Deps.model_deps
-  dependencies << BuildrPlus::Deps.server_deps
-
-  war_module_names = [project.iml.name]
-  jpa_module_names = BuildrPlus::FeatureManager.activated?(:db) ? [project.iml.name] : []
-  ejb_module_names =
-    BuildrPlus::FeatureManager.activated?(:db) || BuildrPlus::FeatureManager.activated?(:ee) ? [project.iml.name] : []
-
-  ipr.add_exploded_war_artifact(project,
-                                :dependencies => dependencies,
-                                :war_module_names => war_module_names,
-                                :jpa_module_names => jpa_module_names,
-                                :ejb_module_names => ejb_module_names)
-
-  remote_packaged_apps = BuildrPlus::Glassfish.remote_only_packaged_apps.dup.merge(BuildrPlus::Glassfish.packaged_apps)
-  local_packaged_apps = BuildrPlus::Glassfish.non_remote_only_packaged_apps.dup.merge(BuildrPlus::Glassfish.packaged_apps)
-
-  local_packaged_apps['greenmail'] = BuildrPlus::Libs.greenmail_server if BuildrPlus::FeatureManager.activated?(:mail)
-
-  ipr.add_glassfish_remote_configuration(project,
-                                         :server_name => 'GlassFish 4.1.1.162',
-                                         :exploded => [project.name],
-                                         :packaged => remote_packaged_apps)
-  ipr.add_glassfish_configuration(project,
-                                  :server_name => 'GlassFish 4.1.1.162',
-                                  :exploded => [project.name],
-                                  :packaged => local_packaged_apps)
-
-  if local_packaged_apps.size > 0
-    only_packaged_apps = BuildrPlus::Glassfish.only_only_packaged_apps.dup
-    ipr.add_glassfish_configuration(project,
-                                    :configuration_name => "#{BuildrPlus::Naming.pascal_case(project.name)} Only - GlassFish 4.1.1.162",
-                                    :server_name => 'GlassFish 4.1.1.162',
-                                    :exploded => [project.name],
-                                    :packaged => only_packaged_apps)
-  end
 end

@@ -56,6 +56,10 @@ BuildrPlus::FeatureManager.feature(:domgen) do |f|
       BuildrPlus::Db.mssql? ? self.mssql_generators : BuildrPlus::Db.pgsql? ? pgsql_generators : []
     end
 
+    def dialect_specific_database_paths
+      BuildrPlus::Db.mssql? ? %w(database/mssql) : BuildrPlus::Db.pgsql? ? %w(database/pgsql) : []
+    end
+
     def database_target_dir
       @database_target_dir || 'database/generated'
     end
@@ -92,10 +96,14 @@ BuildrPlus::FeatureManager.feature(:domgen) do |f|
         if BuildrPlus::FeatureManager.activated?(:sync)
           generators << (BuildrPlus::Db.mssql? ? :sync_sql : :sync_pgsql)
         end
+        if BuildrPlus::FeatureManager.activated?(:appconfig)
+          generators << (BuildrPlus::Db.mssql? ? :appconfig_mssql : :appconfig_pgsql)
+        end
         Domgen::Build.define_generate_task(generators, :key => :sql, :target_dir => BuildrPlus::Domgen.database_target_dir)
 
         database = Dbt.repository.database_for_key(:default)
-        database.search_dirs = %W(#{BuildrPlus::Domgen.database_target_dir} database) unless database.search_dirs?
+        default_search_dirs = %W(#{BuildrPlus::Domgen.database_target_dir} database) + BuildrPlus::Domgen.dialect_specific_database_paths
+        database.search_dirs = default_search_dirs unless database.search_dirs?
         database.enable_domgen
       end
     end
@@ -106,6 +114,7 @@ BuildrPlus::FeatureManager.feature(:domgen) do |f|
           if BuildrPlus::Domgen.enforce_postload_constraints?
             facet_mapping =
               {
+                :jms => :jms,
                 :mail => :mail,
                 :soap => :jws,
                 :gwt => :gwt,

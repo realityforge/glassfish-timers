@@ -26,6 +26,11 @@ BuildrPlus::Roles.role(:model) do
 
     generators << [:jaxb_marshalling_tests, :xml_xsd_resources] if BuildrPlus::FeatureManager.activated?(:xml)
 
+    if BuildrPlus::Roles.buildr_projects_with_role(:shared).size == 0
+      generators << [:appconfig_feature_flag_container] if BuildrPlus::FeatureManager.activated?(:appconfig)
+      generators << [:syncrecord_datasources] if BuildrPlus::FeatureManager.activated?(:syncrecord)
+    end
+
     generators += project.additional_domgen_generators
 
     Domgen::Build.define_generate_task(generators.flatten, :buildr_project => project)
@@ -55,7 +60,6 @@ BuildrPlus::Roles.role(:model) do
       else
         it.should_not contain('META-INF/persistence.xml')
       end
-      it.should contain("#{project.root_project.group_as_path}/server/entity/#{project.root_project.name_as_class}PersistenceUnit.class")
     end
 
     iml.add_jpa_facet

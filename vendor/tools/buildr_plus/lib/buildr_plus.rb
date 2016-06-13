@@ -12,10 +12,12 @@
 # limitations under the License.
 #
 
-expected_version = '1.4.24'
+expected_version = '1.4.25'
 if Buildr::VERSION != expected_version
-  raise "buildr_plus expected Buidlr version #{expected_version} but Buildrs actual version is #{Buildr::VERSION}"
+  raise "buildr_plus expected Buildr version #{expected_version} but actual version is #{Buildr::VERSION}"
 end
+
+require 'yaml'
 
 require 'buildr_plus/core'
 require 'buildr_plus/naming'
@@ -24,7 +26,6 @@ require 'buildr_plus/feature_manager'
 require 'buildr_plus/util'
 
 # Patches that should always be applied
-require 'buildr_plus/patches/project_patch'
 require 'buildr_plus/patches/group_project_patch'
 
 require 'buildr_plus/features/appcache'
@@ -35,6 +36,7 @@ require 'buildr_plus/features/calendar_date_select'
 require 'buildr_plus/features/checkstyle'
 require 'buildr_plus/features/ci'
 require 'buildr_plus/features/compile_options'
+require 'buildr_plus/features/config'
 require 'buildr_plus/features/db'
 require 'buildr_plus/features/dbt'
 require 'buildr_plus/features/deps'
@@ -44,6 +46,8 @@ require 'buildr_plus/features/domgen'
 require 'buildr_plus/features/ejb'
 require 'buildr_plus/features/findbugs'
 require 'buildr_plus/features/geolatte'
+require 'buildr_plus/features/geotools'
+require 'buildr_plus/features/github'
 require 'buildr_plus/features/gitignore'
 require 'buildr_plus/features/glassfish'
 require 'buildr_plus/features/guiceyloops'
@@ -58,10 +62,12 @@ require 'buildr_plus/features/jms'
 require 'buildr_plus/features/less'
 require 'buildr_plus/features/libs'
 require 'buildr_plus/features/mail'
+require 'buildr_plus/features/oss'
 require 'buildr_plus/features/pmd'
 require 'buildr_plus/features/product_version'
 require 'buildr_plus/features/publish'
 require 'buildr_plus/features/rails'
+require 'buildr_plus/features/redfish'
 require 'buildr_plus/features/replicant'
 require 'buildr_plus/features/repositories'
 require 'buildr_plus/features/roles'
@@ -74,6 +80,7 @@ require 'buildr_plus/features/sync'
 require 'buildr_plus/features/syncrecord'
 require 'buildr_plus/features/testng'
 require 'buildr_plus/features/timerstatus'
+require 'buildr_plus/features/travis'
 require 'buildr_plus/features/user_experience'
 require 'buildr_plus/features/whitespace'
 require 'buildr_plus/features/xml'
@@ -93,5 +100,12 @@ require 'buildr_plus/roles/container'
 require 'buildr_plus/roles/sync_model'
 require 'buildr_plus/roles/user_experience'
 require 'buildr_plus/roles/all_in_one'
+require 'buildr_plus/roles/all_in_one_library'
 require 'buildr_plus/roles/library'
 require 'buildr_plus/roles/library_qa_support'
+
+require 'buildr_plus/config/application'
+require 'buildr_plus/config/environment'
+require 'buildr_plus/config/database'
+require 'buildr_plus/config/ssrs'
+require 'buildr_plus/config/broker'

@@ -17,17 +17,25 @@ BuildrPlus::FeatureManager.feature(:less) do |f|
     def default_less_path
       'src/main/webapp/less'
     end
+
+    attr_writer :options
+
+    def options
+      @options || {}
+    end
+
+    def less_path
+      options[:source_dir] || BuildrPlus::Less.default_less_path
+    end
   end
 
   f.enhance(:ProjectExtension) do
     def less_path
-      @less_path || project._(BuildrPlus::Less.default_less_path)
+      project._(BuildrPlus::Less.less_path)
     end
 
-    attr_writer :less_path
-
     def lessc_required?
-      File.exist?(project._(project.less_path))
+      File.exist?(less_path)
     end
 
     first_time do
@@ -37,19 +45,16 @@ BuildrPlus::FeatureManager.feature(:less) do |f|
 
     before_define do |project|
       if project.lessc_required?
-        define_less_dir(project, :source_dir => project.less_path)
+        define_lessc_task(project, BuildrPlus::Less.options)
         task(':domgen:all').enhance(["#{project.name}:lessc"])
-      end
-
-      if project.ipr?
-        p = if BuildrPlus::Roles.project_with_role?(:server)
-          project(BuildrPlus::Roles.project_with_role(:server).name)
-        elsif project.lessc_required?
-          project
-        else
-          nil
+        if project.ipr?
+          p = if BuildrPlus::Roles.project_with_role?(:server)
+            project.project(BuildrPlus::Roles.project_with_role(:server).name)
+          else
+            project
+          end
+          project.ipr.add_less_compiler_component(project, :source_dir => p.less_path)
         end
-        project.ipr.add_less_compiler_component(project, :source_dir => p.less_path) if p
       end
     end
   end

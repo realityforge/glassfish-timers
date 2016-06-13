@@ -18,7 +18,7 @@ BuildrPlus::Roles.role(:gwt) do
   project.publish = BuildrPlus::Artifacts.gwt?
 
   if BuildrPlus::FeatureManager.activated?(:domgen)
-    generators = [:gwt, :gwt_rpc_shared, :gwt_rpc_client_service, :gwt_client_jso]
+    generators = [:gwt, :gwt_rpc_shared, :gwt_rpc_client_service, :gwt_client_jso, :auto_bean]
     generators += [:imit_shared, :imit_client_service, :imit_client_entity] if BuildrPlus::FeatureManager.activated?(:replicant)
     generators += project.additional_domgen_generators
     Domgen::Build.define_generate_task(generators, :buildr_project => project) do |t|
@@ -29,6 +29,7 @@ BuildrPlus::Roles.role(:gwt) do
   end
 
   compile.with BuildrPlus::Libs.findbugs_provided, BuildrPlus::Libs.gwt_gin
+  compile.with BuildrPlus::Libs.gwt_datatypes
 
   compile.with BuildrPlus::Libs.replicant_client if BuildrPlus::FeatureManager.activated?(:replicant)
 
@@ -44,7 +45,7 @@ BuildrPlus::Roles.role(:gwt) do
   p = project.root_project
 
   # This compile exists to verify that module is independently compilable
-  BuildrPlus::Gwt.define_gwt_task(project, ".#{p.name_as_class}")
+  BuildrPlus::Gwt.define_gwt_task(project, ".#{p.name_as_class}") if BuildrPlus::Artifacts.library?
 
   BuildrPlus::Gwt.define_gwt_idea_facet(project)
 

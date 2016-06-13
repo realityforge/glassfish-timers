@@ -12,14 +12,5 @@
 # limitations under the License.
 #
 
-if BuildrPlus::Roles.default_role
-  projects = BuildrPlus::Roles.projects.select { |p| !p.template? }
-  projects[0].roles << BuildrPlus::Roles.default_role if projects.size == 1 && projects[0].roles.empty?
-end
-
-BuildrPlus::Roles.define_top_level_projects
-
-# Force the materialization of projects so the
-# redfish tasks config has been set up
-Buildr.projects
-Redfish::Buildr.define_tasks_for_domains if BuildrPlus::FeatureManager.activated?(:redfish)
+# Enable this feature if the code is hosted in public github server
+BuildrPlus::FeatureManager.feature(:github)
