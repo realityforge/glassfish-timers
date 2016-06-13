@@ -1,6 +1,6 @@
 ---
 modules: !omap
-   - EmapRats:
+   - dbo:
       schema: dbo
       tables:
          - "[dbo].[EJB__TIMER__TBL]"
