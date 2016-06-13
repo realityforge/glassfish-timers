@@ -1,0 +1,7 @@
+---
+modules: !omap
+   - EmapRats:
+      schema: dbo
+      tables:
+         - "[dbo].[EJB__TIMER__TBL]"
+      sequences: []
