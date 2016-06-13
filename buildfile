@@ -1,6 +1,7 @@
 require 'buildr/gpg'
 require 'buildr/custom_pom'
 require 'buildr_plus/java_library_multimodule'
+BuildrPlus::Dbt.library = false
 
 class Buildr::Project
   def package_as_json(file_name)
