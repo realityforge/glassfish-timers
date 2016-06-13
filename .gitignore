@@ -4,6 +4,7 @@
 /*.ipr
 /*.iws
 /artifacts
+/config/application.yml
 /config/database.yml
 /config/local.sh
 /reports
