@@ -1,15 +1,15 @@
+class Buildr::Project
+  def package_as_json(file_name)
+    file(file_name)
+  end
+end
+
 require 'buildr/git_auto_version'
 require 'buildr/bnd'
 require 'buildr/gpg'
 require 'buildr/custom_pom'
 require 'buildr/activate_jruby_facet'
 require 'buildr/single_intermediate_layout'
-
-class Buildr::Project
-  def package_as_json(file_name)
-    file(file_name)
-  end
-end
 
 desc 'GlassfishTimers: GlassFish timers database sql'
 define 'glassfish-timers' do
@@ -28,7 +28,7 @@ define 'glassfish-timers' do
 
   define 'domain' do
     project.no_iml
-      json = File.dirname(__FILE__) + '/src/main/etc/redfish.json'
+    json = File.dirname(__FILE__) + '/src/main/etc/redfish.json'
     package(:json).enhance do |t|
       FileUtils.mkdir_p File.dirname(t.to_s)
       FileUtils.cp json, t.to_s
