@@ -1,5 +1,7 @@
 # GlassfishTimers: GlassFish timers database sql
 
+[![Build Status](https://secure.travis-ci.org/realityforge/glassfish_timers.png?branch=master)](http://travis-ci.org/realityforge/glassfish_timers)
+
 ## What is GlassfishTimers?
 
 The GlassfishTimers project exists to package existing sql to be able to be deployed through standard mechanisms.
