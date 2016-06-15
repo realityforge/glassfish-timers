@@ -6,13 +6,6 @@
     "squashed": true,
     "revision": "38514853b3ec5b95ff79a8875a7bbccbec0db357"
   },
-  "vendor/tools/buildr_plus": {
-    "url": "https://github.com/realityforge/buildr_plus.git",
-    "remote": "master/braid/vendor/tools/buildr_plus",
-    "branch": "master",
-    "squashed": true,
-    "revision": "a5f2aef0de783dd0c8733bfd18223222714c2bfd"
-  },
   "vendor/tools/dbt": {
     "branch": "master",
     "remote": "master/braid/vendor/tools/dbt",

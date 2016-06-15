@@ -1,7 +1,9 @@
+require 'buildr/git_auto_version'
+require 'buildr/bnd'
 require 'buildr/gpg'
 require 'buildr/custom_pom'
-require 'buildr_plus/java_library_multimodule'
-BuildrPlus::Dbt.library = false
+require 'buildr/activate_jruby_facet'
+require 'buildr/single_intermediate_layout'
 
 class Buildr::Project
   def package_as_json(file_name)
@@ -9,21 +11,30 @@ class Buildr::Project
   end
 end
 
-BuildrPlus::Roles.project('glassfish-timers') do
-  project.comment = 'GlassfishTimers: GlassFish timers database sql'
+desc 'GlassfishTimers: GlassFish timers database sql'
+define 'glassfish-timers' do
   project.group = 'org.realityforge.glassfish.timers'
+  compile.options.source = '1.7'
+  compile.options.target = '1.7'
 
   pom.add_apache_v2_license
   pom.add_github_project('realityforge/glassfish-timers')
   pom.add_developer('realityforge', 'Peter Donald', 'peter@realityforge.org', ['Developer'])
 
+  define 'db' do
+    project.no_iml
+    Dbt.define_database_package(:default)
+  end
+
   define 'domain' do
     project.no_iml
+      json = File.dirname(__FILE__) + '/src/main/etc/redfish.json'
     package(:json).enhance do |t|
       FileUtils.mkdir_p File.dirname(t.to_s)
-      FileUtils.cp File.dirname(__FILE__) + '/src/main/etc/redfish.json', t.to_s
+      FileUtils.cp json, t.to_s
+    end
+    package(:sources).tap do |t|
+      t.include json
     end
   end
 end
-
-require 'buildr_plus/activate'

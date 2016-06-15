@@ -1,9 +1,4 @@
 PATH
-  remote: vendor/tools/buildr_plus
-  specs:
-    buildr_plus (1.0.0)
-
-PATH
   remote: vendor/tools/dbt
   specs:
     dbt (0.10.0.dev)
@@ -71,7 +66,6 @@ PLATFORMS
 DEPENDENCIES
   braid (= 1.0.1)
   buildr (= 1.4.25)
-  buildr_plus (= 1.0.0)!
   dbt (= 0.10.0.dev)!
   rspec (= 2.14.1)
   rspec-core (= 2.14.5)
