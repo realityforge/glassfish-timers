@@ -1,6 +1,6 @@
 # GlassfishTimers: GlassFish timers database sql
 
-[![Build Status](https://secure.travis-ci.org/realityforge/glassfish_timers.png?branch=master)](http://travis-ci.org/realityforge/glassfish_timers)
+[![Build Status](https://secure.travis-ci.org/realityforge/glassfish-timers.png?branch=master)](http://travis-ci.org/realityforge/glassfish-timers)
 
 ## What is GlassfishTimers?
 
