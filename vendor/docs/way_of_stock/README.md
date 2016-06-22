@@ -26,10 +26,17 @@ features but they likely to be required by many projects.
 * [Install ruby and rbenv](Ruby.md)
 * [Install java](Java.md)
 * [Install freetds library](FreeTDS.md)
+* [Install Postgres](Postgres.md)
 * [Install gem dependencies](GemDependencies.md)
 * [Install IntelliJ IDEA](IntellijIDEA.md)
 * [Install GlassFish](GlassFish.md)
 * [Install Docker](Docker.md)
+
+## How-to Configure the Application
+
+The following documents describe configuration of the application during development.
+
+* [Local Application Configuration](LocalConfiguration.md)
 
 ## Essential Development Tools
 
