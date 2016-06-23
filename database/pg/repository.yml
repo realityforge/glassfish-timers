@@ -1,0 +1,7 @@
+---
+modules: !omap
+   - dbo:
+      schema: public
+      tables:
+         - "\"public\".\"EJB__TIMER__TBL\""
+      sequences: []
