@@ -9,7 +9,7 @@
   "vendor/tools/dbt": {
     "branch": "master",
     "remote": "master/braid/vendor/tools/dbt",
-    "revision": "e16abae37d14a004ffd9adf4635e6938705d8f67",
+    "revision": "b90aa7f96eba74e1fc89aeb84bf1eb817970d5bb",
     "squashed": true,
     "url": "https://github.com/realityforge/dbt.git"
   }
