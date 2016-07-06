@@ -36,7 +36,7 @@ address for specific projects, you can run the command without the `--global` op
 If the email used in a commit matches a verified GitHub or GitHub Enterprise user account, the account's username
 is used on website, instead of the username set by Git.
 
-## Configure prompt-less password for acccessing repositories over http
+## Configure prompt-less password for accessing repositories over http
 
 When attempting to clone or pull a repository over http or https you will normally need to enter your password
 at a prompt. This can be quite annoying after a while so instead you can add configuration to the ``~/.netrc``

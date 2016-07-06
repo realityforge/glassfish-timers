@@ -4,12 +4,12 @@
     "remote": "master/braid/vendor/docs/way_of_stock",
     "branch": "master",
     "squashed": true,
-    "revision": "e1b4ca32374c28b93ff2971f51e845eb7a8c408c"
+    "revision": "fadcafa0a2f26067454eee50c3fa210f33c0a6f1"
   },
   "vendor/tools/dbt": {
     "branch": "master",
     "remote": "master/braid/vendor/tools/dbt",
-    "revision": "e16abae37d14a004ffd9adf4635e6938705d8f67",
+    "revision": "b90aa7f96eba74e1fc89aeb84bf1eb817970d5bb",
     "squashed": true,
     "url": "https://github.com/realityforge/dbt.git"
   }

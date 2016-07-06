@@ -72,4 +72,5 @@ Under Linux:
 
 To verify the install, the easiest way is to start the server and open the console using `sudo -u postgres psql postgres`
 on Linux or `psql postgres` on OSX. Then type the query `SELECT postgis_full_version();`. It should return something
-similar to; `POSTGIS="2.1.7" GEOS="3.4.2" PROJ="Rel. 4.8.0" GDAL="GDAL 1.10.1" LIBXML="2.9.1" LIBJSON="UNKNOWN" RASTER`
+similar to; `POSTGIS="2.1.7" GEOS="3.4.2" PROJ="Rel. 4.8.0" GDAL="GDAL 1.10.1" LIBXML="2.9.1" LIBJSON="UNKNOWN" RASTER`. This
+may fail with inability to find application in which case you will need to create the extension via `CREATE EXTENSION postgis;`
