@@ -28,7 +28,7 @@ define 'glassfish-timers' do
 
   define 'domain' do
     project.no_iml
-    json = File.dirname(__FILE__) + '/src/main/etc/redfish.json'
+    json = File.dirname(__FILE__) + '/src/main/etc/redfish-' + (ENV['DB_TYPE'] == 'pg' ? 'pgsql' : 'mssql') + '.json'
     package(:json).enhance do |t|
       FileUtils.mkdir_p File.dirname(t.to_s)
       FileUtils.cp json, t.to_s
