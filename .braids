@@ -4,7 +4,7 @@
     "remote": "master/braid/vendor/docs/way_of_stock",
     "branch": "master",
     "squashed": true,
-    "revision": "fadcafa0a2f26067454eee50c3fa210f33c0a6f1"
+    "revision": "be0b1d0ef7ef83bc8e98a925de43dd1e27f1c86b"
   },
   "vendor/tools/dbt": {
     "branch": "master",
