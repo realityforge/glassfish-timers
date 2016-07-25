@@ -1,5 +1,5 @@
 stage 'Dev'
-docker.image('stocksoftware:3.3.3-jdk-8').inside {
+docker.image('stocksoftware:java-7.80.15_ruby-2.1.3').inside {
   checkout scm
   sh 'mvn -B clean install'
 }
