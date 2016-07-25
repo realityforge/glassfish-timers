@@ -26,7 +26,7 @@ if [ -f Gemfile ]; then
   i="0"
 
   until (bundle check > /dev/null 2> /dev/null) || [ \$i -gt 10 ]; do
-    echo "Bundle update. Attempt: $i"
+    echo "Bundle update. Attempt: \$i"
     update_bundler 'quiet'
     i=\$[\$i+1]
   done
