@@ -7,18 +7,19 @@ and processes we use day to day.
 
 * Define Simple Buildr project:
     * Ensure ruby environment for project is configured.
-        * StockSoftware [Ruby](https://github.com/stocksoftware/way_of_stock/blob/master/Ruby.md) documentation.
+        * StockSoftware [Ruby](Ruby.md) documentation.
         * Manually create a `.ruby-version` file with 2.1.3 as the version dependency.
         * Create a Gemfile to define dependency on buildr.
         * StockSoftware [Ruby Gems](http://guides.rubygems.org/rubygems-basics/) documentation.
         * Run `buildr install` to get all the needed dependencies.
 
     * Package a basic war file.
-        * StockSoftware [Buildr](https://github.com/stocksoftware/way_of_stock/blob/master/Buildr.md) documentation.
+        * StockSoftware [Buildr](Buildr.md) documentation.
         * Manually create the `buildfile` to be used by buildr.
         * Generate a war file using buildr.
 
     * JAX-RS endpoint that uses a simple CDI service to emit hello world.
+        * Follow this document structure https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html
         * Run `buildr idea` to prepare the project for Idea.
         * Create the build.yaml file wherein the library dependencies will be defined.
         * Create the classes.
@@ -31,7 +32,7 @@ and processes we use day to day.
         * Run the tests through buildr.
 
 * Define `setup.sh` for local glassfish
-    * StockSoftware [Glassfish](https://github.com/stocksoftware/way_of_stock/blob/master/GlassFish.md) documentation.
+    * StockSoftware [Glassfish](GlassFish.md) documentation.
     * Create `config/setup/sh`.
 
 * Define project on Jenkins without deploying to Development
@@ -45,7 +46,7 @@ and processes we use day to day.
 # Stage 2
 
 * Define chef infrastructure for project:
-    * Read through the [ApplicationRelease](https://github.com/stocksoftware/way_of_stock/blob/master/ApplicationRelease.md) documentation.
+    * Read through the [ApplicationRelease](ApplicationRelease.md) documentation.
     * Define a single glassfish template.
     * Define an application data bag item.
 

@@ -13,7 +13,7 @@
 * Share mobile numbers
 * Create stocksoftware email address (and forward to Gmail)
 * Add account to mailing lists
-* Get building access for 570 Bourke St
+* Get building access for relevant buildings
 * Create stocksoftware server account, and ssh keys
 * Create account on Tide
 * Learn how to use Tide
@@ -25,8 +25,8 @@
 * Create account on Artifactory
 * Create account on New Relic
 * Create account on Papertrail
-* Create account on Wikidot site (http://wiki.stocksoftware.com.au/)
-* Connect to Wifi (Thelxinoe)
+* DEPRECATED: Create account on Wikidot site (http://wiki.stocksoftware.com.au/)
+* Connect to Wifi (Thelxinoe or CSBC)
 
 ### DELWP
 

@@ -26,11 +26,11 @@ _destination() {
 }
 complete -F _destination kdbd
 
-_services() {
+_knife_services() {
    local word=${COMP_WORDS[COMP_CWORD]}
    COMPREPLY=( $( compgen -W "`find data_bags/services/*.json -exec basename {} \;`" -- $word ) )
 }
-complete -F _services kdbs
+complete -F _knife_services kdbs
 
 _app() {
    local word=${COMP_WORDS[COMP_CWORD]}

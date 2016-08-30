@@ -23,6 +23,17 @@ function __my_rbenv_ruby_version {
   [ "$full" != "" ] && echo "$full "
 }
 
+function __my_chef_chef_mode {
+   [ "$CHEF_MODE" == "production" ] && echo "D "
+   [ "$CHEF_MODE" == "stock" ] && echo "A "
+}
+
+if [ "$(type -t __docker_machine_ps1)" != function ]; then
+  function __docker_machine_ps1 {
+    echo ""
+  }
+fi
+
 bash_prompt() {
   local NONE="\[\033[0m\]"    # unsets color to term's fg color
 
@@ -59,7 +70,7 @@ bash_prompt() {
   local UC=$W                 # user's color
   [ $UID -eq "0" ] && UC=$R   # root's color
 
-  PS1="$B\$(__my_rbenv_ruby_version)$Y\h$W:$EMY\w$EMW\$(__git_branch)$EMY\$(__git_dirty)${NONE} $ "
+  PS1="$R\$(__docker_machine_ps1)$B\$(__my_rbenv_ruby_version)$W$R\$(__my_chef_chef_mode)$Y\h$W:$EMY\w$EMW\$(__git_branch)$EMY\$(__git_dirty)${NONE} $ "
 }
 
 bash_prompt

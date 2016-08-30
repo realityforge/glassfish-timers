@@ -16,6 +16,11 @@ The user should be set as an admin
 
 Copy the private key to ~/dev/infrastructure/.chef/YOUR_UBUNTU_USER_NAME.pem
 
+## Set up environment variables
+export set CHEF_USER=YOUR_UBUNTU_USER_NAME
+
+(You probably want to put this into your .bashrc)
+
 ## Bash shell expansion
 Bash expansions for common knife commands make your life easier!
 
