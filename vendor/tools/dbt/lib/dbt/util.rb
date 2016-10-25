@@ -13,5 +13,15 @@
 #
 
 class Dbt
-  VERSION = "0.10.0.dev"
+  class Util
+    @@pre_1_zip_gem = nil
+
+    def self.use_pre_1_zip_gem!
+      @@pre_1_zip_gem = true
+    end
+
+    def self.use_pre_1_zip_gem?
+      @@pre_1_zip_gem.nil? ? (defined?(::Buildr) && ::Buildr::VERSION.to_s < '1.5.0') : !!@@pre_1_zip_gem
+    end
+  end
 end
