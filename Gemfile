@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
 gem 'buildr', '= 1.4.25'
-gem 'braid', '= 1.0.1'
-gem 'tiny_tds', '= 0.6.2'
+gem 'braid', '= 1.0.3'
+gem 'tiny_tds', '= 1.0.5'
 gem 'pg', '= 0.15.1'
 
 # Rspec required for buildr
