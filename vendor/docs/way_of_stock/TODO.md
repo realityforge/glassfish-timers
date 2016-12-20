@@ -9,7 +9,7 @@
         * Entity Examples: Soap service, Database Service, Mail Service etc
 
 * Environment Setup
-    * Document ~/.bash.d/ setup
+    * Document ~/.bash.d/ setup. i.e. Adding the following to .bashrc `for f in ~/.bash.d/*.sh; do source $f; done`
     * sql server and initial dev user
     * virtualbox (via cask on Mac)
         * Sharing Host VPN with VirtualBox guest - http://renier.morales-rodriguez.net/post/90674523562/sharing-host-vpn-with-virtualbox-guest

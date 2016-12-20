@@ -119,48 +119,6 @@ There are a few ways to fix this:
 * Append the following line to `~/.bashrc`, then restart your session.
 * Turn off IBus at `System Settings | Language Support | Keyboard input method`.
 
-## Setting up icons and file associations in ubuntu
-
-To setup an icon for IDEA in ubuntu you need to create a file `~/.local/share/applications/jetbrains-idea.desktop`.
-The file should contain content similar to:
-
-    #!/usr/bin/env xdg-open
-    [Desktop Entry]
-    Version=1.0
-    Type=Application
-    Name=IntelliJ IDEA
-    Exec="/home/username/Applications/idea/bin/idea.sh" %f
-    Icon=/home/username/Applications/idea/bin/idea.png
-    MimeType=application/x-ipr
-    Comment=Develop with pleasure!
-    Categories=Development;IDE;
-    Terminal=false
-    StartupNotify=true
-    StartupWMClass=jetbrains-idea
-
-The file should also be made world executable via:
-
-    $ chmod 644 ~/.local/share/applications/jetbrains-idea.desktop
-
-Next create a local file type and mapping so that when you double click on .ipr or
-`xdg-open myproject.ipr` an idea file it is opened in the correct application. Create a
-file `~/.local/share/mime/packages/application-x-ipr.xml` creating the directory if necessary.
-
-    <?xml version="1.0" encoding="UTF-8"?>
-    <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
-        <mime-type type="application/x-ipr">
-            <comment>IDEA Project files</comment>
-            <icon name="application-x-ipr"/>
-            <glob-deleteall/>
-            <glob pattern="*.ipr"/>
-        </mime-type>
-    </mime-info>
-
-Now update the applications and mime database with:
-
-    $ update-desktop-database ~/.local/share/applications
-    $ update-mime-database    ~/.local/share/mime
-
 ## Keyboard mappings for Ubuntu
 
 When running IDEA for Ubuntu, due to the Unity UI, a number of keystrokes are unavailable.

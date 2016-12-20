@@ -57,6 +57,8 @@ point for using the tools within the context of our projects.
 
 The documents describe in shorthand some of our development processes.
 
+* [Automerge Branches](AutomergeBranches.md): How to use Automerge branches.
+* [Autozim Projects](AutozimProjects.md): How to automatically push artifact updates to downstream projects.
 * [Application Releases](ApplicationRelease.md): How we release our applications.
 
 ## Learning Goals
