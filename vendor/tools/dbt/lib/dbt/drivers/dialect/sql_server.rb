@@ -209,8 +209,10 @@ SQL
       end
 
       def backup(database, configuration)
-        sql = get_backup_name_sql(configuration, configuration.backup_name || Dbt::Naming.uppercase_constantize(database.key.to_s))
-        sql << <<SQL
+        sql = <<SQL
+  DECLARE @RegKey VARCHAR(400)
+#{get_instance_key_sql}
+#{get_backup_name_sql(configuration, configuration.backup_name || Dbt::Naming.uppercase_constantize(database.key.to_s))}
   BACKUP DATABASE #{quote_table_name(configuration.catalog_name)} TO DISK = @BackupName
   WITH FORMAT, INIT, NAME = N'POST_CI_BACKUP', SKIP, NOREWIND, NOUNLOAD, STATS = 10
 SQL
@@ -220,6 +222,9 @@ SQL
       def restore(database, configuration)
         execute(<<SQL)
   IF EXISTS (SELECT * FROM sys.databases WHERE name = '#{configuration.catalog_name}')
+  ALTER DATABASE #{quote_table_name(configuration.catalog_name)} SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+  DECLARE @RegKey VARCHAR(400)
+#{get_instance_key_sql}
 #{get_backup_name_sql(configuration, configuration.restore_name || Dbt::Naming.uppercase_constantize(database.key.to_s))}
   DECLARE @DataLogicalName VARCHAR(400)
   DECLARE @LogLogicalName VARCHAR(400)
@@ -280,7 +285,6 @@ SQL
   STATS = 10
   '
 
-  ALTER DATABASE #{configuration.catalog_name} SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
   EXEC(@sql)
 SQL
       end
@@ -291,9 +295,6 @@ SQL
           sql << "SET @BackupName = '#{configuration.backup_location}\\#{backup_name}.bak'"
         else
           sql << <<SQL
-#{get_instance_key_sql}
-
-  DECLARE @RegKey VARCHAR(400)
   SET @RegKey = 'SOFTWARE\\Microsoft\\Microsoft SQL Server\\' + @InstanceKey + '\\MSSQLServer'
   DECLARE @BackupDir VARCHAR(400)
   EXEC master.dbo.xp_regread @rootkey='HKEY_LOCAL_MACHINE', @key=@RegKey, @value_name='BackupDirectory', @value=@BackupDir OUTPUT

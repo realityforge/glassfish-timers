@@ -59,9 +59,9 @@ class Dbt #nodoc
             FileUtils.mkdir_p File.dirname(file)
             File.open(file, 'wb') do |f|
               f.write <<-SQL
-INSERT INTO @@TARGET@@.#{entity.sql.qualified_table_name}(#{entity.attributes.select{|a|a.sql?}.collect{|a|a.sql.quoted_column_name }.join(', ')})
+INSERT INTO [@@TARGET@@].#{entity.sql.qualified_table_name}(#{entity.attributes.select{|a|a.sql?}.collect{|a|a.sql.quoted_column_name }.join(', ')})
   SELECT #{entity.attributes.select{|a|a.sql?}.collect{|a|a.sql.quoted_column_name }.join(', ')}
-  FROM @@SOURCE@@.#{entity.sql.qualified_table_name}
+  FROM [@@SOURCE@@].#{entity.sql.qualified_table_name}
               SQL
             end
           end
@@ -101,16 +101,16 @@ INSERT INTO @@TARGET@@.#{entity.sql.qualified_table_name}(#{entity.attributes.se
     def get_domgen_repository(repository_key)
       if repository_key
         repository = Domgen.repository_by_name(repository_key)
-        if Domgen.repositorys.size == 1
+        if Domgen.repositories.size == 1
           Domgen.warn("Dbt database #{key} specifies a repository_key parameter in the domgen integration but it can be be derived as there is only a single repository. The parameter should be removed.")
         end
         return repository
       elsif repository_key.nil?
-        repositorys = Domgen.repositorys
-        if repositorys.size == 1
-          return repositorys[0]
+        repositories = Domgen.repositories
+        if repositories.size == 1
+          return repositories[0]
         else
-          Domgen.error("Dbt database #{key} does not specify a repository_key parameter and it can not be derived. Candidate repositories include #{repositorys.collect { |r| r.name }.inspect}")
+          Domgen.error("Dbt database #{key} does not specify a repository_key parameter and it can not be derived. Candidate repositories include #{repositories.collect { |r| r.name }.inspect}")
         end
       end
     end
@@ -209,7 +209,7 @@ INSERT INTO @@TARGET@@.#{entity.sql.qualified_table_name}(#{entity.attributes.se
         key = ':' + imp.key.to_s unless Dbt::Config.default_import?(imp.key)
         desc "Create the #{database.key} database by import."
         task "#{database.task_prefix}:create_by_import#{key}" => ["#{database.task_prefix}:prepare"] do
-          banner('Creating Database By Import', database.key)
+          banner("Creating Database By Import#{Dbt::Config.default_import?(imp.key) ? '' : " (#{imp.key})"}", database.key)
           @@runtime.create_by_import(imp)
         end
       end
