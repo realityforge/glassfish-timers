@@ -2,6 +2,14 @@ class Buildr::Project
   def package_as_json(file_name)
     file(file_name)
   end
+
+  def package_as_json_sources_spec(spec)
+    spec.merge(:type => :json, :classifier => :sources)
+  end
+
+  def package_as_json_sources(file_name)
+    file(file_name)
+  end
 end
 
 require 'buildr/git_auto_version'
@@ -30,6 +38,10 @@ define 'glassfish-timers' do
     project.no_iml
     json = File.dirname(__FILE__) + '/src/main/etc/redfish-' + (ENV['DB_TYPE'] == 'pg' ? 'pgsql' : 'mssql') + '.json'
     package(:json).enhance do |t|
+      FileUtils.mkdir_p File.dirname(t.to_s)
+      FileUtils.cp json, t.to_s
+    end
+    package(:json_sources).enhance do |t|
       FileUtils.mkdir_p File.dirname(t.to_s)
       FileUtils.cp json, t.to_s
     end
