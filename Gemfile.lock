@@ -2,7 +2,7 @@ PATH
   remote: vendor/tools/dbt
   specs:
     dbt (0.10.0.dev)
-      reality-core (>= 1.4.0)
+      reality-core (>= 1.6.0)
       reality-orderedhash (>= 1.0.0)
 
 GEM
