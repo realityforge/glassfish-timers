@@ -1,6 +1,6 @@
 ---
 modules: !omap
-   - dbo:
+   - public:
       schema: public
       tables:
          - "\"public\".\"EJB__TIMER__TBL\""
