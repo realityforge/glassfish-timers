@@ -22,8 +22,8 @@ require 'buildr/single_intermediate_layout'
 desc 'GlassfishTimers: GlassFish timers database sql'
 define 'glassfish-timers' do
   project.group = "org.realityforge.glassfish.timers#{ENV['DB_TYPE'] == 'pg' ? '.pg' : ''}"
-  compile.options.source = '1.7'
-  compile.options.target = '1.7'
+  compile.options.source = '1.8'
+  compile.options.target = '1.8'
 
   pom.add_apache_v2_license
   pom.add_github_project('realityforge/glassfish-timers')
