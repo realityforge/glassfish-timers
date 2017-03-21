@@ -4,7 +4,7 @@
 [Git](http://git-scm.com/) repository. That costs and benefits of vendoring in an external library
 rather than referencing an external library is well documented on the [Braid](http://cristibalan.github.io/braid/)
 website. We use it to vendor in external repositories such as dbt, domgen, rptman as well as documentation
-repositories like this repository. A project uses braid if it has a file named `.braids` in the root directory.
+repositories like this repository. A project uses braid if it has a file named `.braids.json` in the root directory.
 
 For an existing project you can braid in a new project with a command similar to:
 

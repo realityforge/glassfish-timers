@@ -29,8 +29,7 @@ share an artifact repository. These projects are not yet supported as targets of
 
 ## How is it implemented?
 
-Essentially `buildr_plus` generates some code that is placed in `Jenkinsfile` and `.jenkins/main.groovy`
-that checks the name of the branch and if it is an `master` branch then triggers a zim job on successful
-completion of the build. The zim passes in all the artifacts to update and the target version to update to.
-You can look at the generated jenkins configuration to understand the nuts-and-bolts. The jenkins server
-is pre-configured with the zim job.
+Essentially `buildr_plus` generates some code that is placed in `Jenkinsfile` that checks the name of the
+branch and if it is an `master` branch then triggers a zim job on successful completion of the build. The
+zim passes in all the artifacts to update and the target version to update to. You can look at the generated
+jenkins configuration to understand the nuts-and-bolts. The jenkins server is pre-configured with the zim job.

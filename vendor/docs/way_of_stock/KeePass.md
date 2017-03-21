@@ -9,9 +9,13 @@ this or not but it might be handy if anyone ever needs access to your machine fo
 
 Get a mac friendly KeePass application from <https://github.com/mstarke/MacPass>
 
-## Windows/Linux
+## Windows
 
-Get a windows/linux friendly application from <http://keepass.info/download.html>
+Get a windows friendly application from <http://keepass.info/download.html>
+
+## Ubuntu
+
+*apt install keepass2*
 
 ## Android App
 
