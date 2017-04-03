@@ -2,13 +2,11 @@
   "vendor/docs/way_of_stock": {
     "url": "https://github.com/stocksoftware/way_of_stock.git",
     "branch": "master",
-    "squashed": true,
     "revision": "ddefa4c08f39c487b3a87c60eb31be93e82a5b21"
   },
   "vendor/tools/dbt": {
     "branch": "master",
     "revision": "07aacef47f79f00a8d80ac90fb79227312682f6a",
-    "squashed": true,
     "url": "https://github.com/realityforge/dbt.git"
   }
 }
