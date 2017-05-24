@@ -24,30 +24,3 @@ To search for a new package with name containing the word _'gi'_ run:
 To install a package named _'git'_ run:
 
     $ brew install git
-
-# Install Homebrew Cask
-
-[Homebrew Cask](http://caskroom.io/) extends Homebrew and brings its elegance, simplicity, and speed to
-OS X applications and large binaries alike. Essentially it allows you to install applications such as Chrome
-and IntelliJ IDEA from the command line.
-
-To install run:
-
-    $ brew install caskroom/cask/brew-cask
-
-To configure cask to install applications into the global `/Applications` directory, append the following snippet
-to `.bashrc`.
-
-    export HOMEBREW_CASK_OPTS="--appdir=/Applications"
-
-To list the packages installed run:
-
-    $ brew cask list
-
-To search for a new package with name containing the word _'chrome'_ run:
-
-    $ brew cask search chrome
-
-To install a package named _'google-chrome'_ run:
-
-    $ brew cask install google-chrome

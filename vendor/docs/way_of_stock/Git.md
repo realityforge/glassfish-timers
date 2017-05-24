@@ -25,6 +25,12 @@ because every Git commit uses this information, and it’s immutably baked into 
     $ git config --global user.name "My Name"
     $ git config --global user.email myname@example.com
 
+Our projects also rely on `.giattributes` files controlling the EOL style for files. i.e. CRLF for windows `.bat`
+files, LF for almost all other source files. To make sure this works you need to disable auto conversion of EOLs
+via:
+
+    $ git config --global core.autocrlf false
+
 You can verify the settings are correctly set by listing the values using the command:
 
     $ git config --global -l
@@ -47,7 +53,29 @@ Add the following snippet to the ``~/.netrc`` file creating it if necessary and 
 as appropriate.
 
     machine github.com login myusername password mypassword
-    machine git.fire.dse.vic.gov.au login myinternalusername password myinternalpassword
+
+## GPG signing commits
+
+Authorship of git commits is determined by some metadata setup when running git as documented in the
+[Configuring Basic Settings](#Configuring Basic Settings) section. It is trivial to impersonate anyone
+when committing code. To avoid this scenario you can gpg sign your commits which means that it is harder
+to impersonate your commits. Your commits are also marked as _Verified_ on GitHub website. See the
+[documentation](https://help.github.com/articles/signing-commits-using-gpg/) on GutHub for how to setup
+gpg signing.
+
+The cliff notes for setting up gpg signing are run the following command:
+
+    $ git config --global commit.gpgsign true
+
+Install [GPG Suite](https://gpgtools.org/) under OSX, [Gpg4win](https://www.gpg4win.org/) under windows
+or run `sudo apt-get install gnupg2` under Linux and [generate and upload](https://help.github.com/articles/generating-a-new-gpg-key/)
+ a key to GitHub. Then commit as usual and you should see your commits coming through as verified.
+
+If you perform git commits through IntelliJ and want them to be signed, add the following lines to your
+`~/.gnupg/gpg.conf` file:
+
+    # This option tells gpg not to expect a TTY interface and allows IntelliJ to sign commits
+    no-tty
 
 ## Turning off the "helpful" popup when using git gui
 

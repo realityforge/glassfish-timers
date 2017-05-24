@@ -17,6 +17,12 @@ Create a symlink called `payara` to the longer directory name.
 
     $ ln -s ~/Applications/payara-4.1.1.164 ~/Applications/payara
 
+Once installed, it's not a bad idea to delete a few modules that are not required:
+
+    $ rm ~/Applications/payara/glassfish/modules/console-updatecenter-plugin.jar
+    $ rm ~/Applications/payara/glassfish/modules/phonehome-bootstrap.jar
+    $ rm ~/Applications/payara/glassfish/modules/payara-micro-cdi.jar
+
 ## Configuring the shell path
 
 The only other action required is to add Payara's components to the path for the shell. The simplest way to do this

@@ -14,17 +14,12 @@ To update a repository that is already braided in use:
 
     $ braid update vendor/docs/way_of_stock
 
-Local changes can be made as usual to the braided in repository but when you want to push changes back to
-the source directory the typical process is:
+Local changes can be made as usual to the braided in repository. When you want to push changes back to
+the source directory, first commit the changes locally, then use:
 
-    $ braid diff vendor/docs/way_of_stock > ../path/to/way_of_stock/patch.diff
-    $ cd ../path/to/way_of_stock
-    $ git apply patch.diff
-    $ git add .
-    $ git commit -m "Added wonderful stuff"
-    $ git push
+    $ braid push vendor/docs/way_of_stock/ --branch NameOfMyBranch
 
-After you have committed and pushed the changes to the source directory it is simply a matter of issuing another
+After the new branch has been merged into master, it is simply a matter of issuing another
 `braid update` command to update the braid. It is recommended that this is done immediately to avoid merge problems
 down the track.
 
