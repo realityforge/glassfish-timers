@@ -14,7 +14,6 @@ end
 
 require 'buildr/git_auto_version'
 require 'buildr/gpg'
-require 'buildr/activate_jruby_facet'
 require 'buildr/single_intermediate_layout'
 
 desc 'GlassfishTimers: GlassFish timers database sql'
