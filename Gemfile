@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'buildr', '= 1.5.3'
+gem 'buildr', '= 1.5.4'
 gem 'braid', '= 1.0.21'
 gem 'tiny_tds', '= 1.0.5'
 gem 'pg', '= 0.15.1'

@@ -15,7 +15,7 @@ GEM
       main (>= 4.7.3)
       open4 (>= 1.0.1)
     builder (3.2.2)
-    buildr (1.5.3)
+    buildr (1.5.4)
       atoulme-Antwrap (= 0.7.5)
       builder (= 3.2.2)
       bundler
@@ -38,7 +38,7 @@ GEM
       fattr (~> 2.2, >= 2.2.0)
       map (~> 6.1, >= 6.1.0)
     map (6.6.0)
-    mini_portile2 (2.1.0)
+    mini_portile2 (2.3.0)
     minitar (0.5.4)
     net-sftp (2.1.2)
       net-ssh (>= 2.6.5)
@@ -67,7 +67,7 @@ PLATFORMS
 
 DEPENDENCIES
   braid (= 1.0.21)
-  buildr (= 1.5.3)
+  buildr (= 1.5.4)
   dbt (= 0.10.0.dev)!
   pg (= 0.15.1)
   rspec (= 2.14.1)
@@ -77,4 +77,4 @@ DEPENDENCIES
   tiny_tds (= 1.0.5)
 
 BUNDLED WITH
-   1.15.0
+   1.15.4
