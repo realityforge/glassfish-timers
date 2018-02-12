@@ -14,7 +14,7 @@ GEM
     braid (1.0.22)
       main (>= 4.7.3)
     builder (3.2.2)
-    buildr (1.5.4)
+    buildr (1.5.5)
       atoulme-Antwrap (= 0.7.5)
       builder (= 3.2.2)
       bundler
@@ -65,7 +65,7 @@ PLATFORMS
 
 DEPENDENCIES
   braid (= 1.0.22)
-  buildr (= 1.5.4)
+  buildr (= 1.5.5)
   dbt (= 0.10.0.dev)!
   pg (= 0.15.1)
   rspec (= 2.14.1)
