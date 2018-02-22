@@ -1,12 +1,15 @@
 {
-  "vendor/docs/way_of_stock": {
-    "url": "https://github.com/stocksoftware/way_of_stock.git",
-    "branch": "master",
-    "revision": "674f9474a09402a1f6c9b503b388a5d987aafd1a"
-  },
-  "vendor/tools/dbt": {
-    "branch": "master",
-    "revision": "24df1e5e0434b8ef1ce2003abab957029cf2e833",
-    "url": "https://github.com/realityforge/dbt.git"
+  "config_version": 1,
+  "mirrors": {
+    "vendor/docs/way_of_stock": {
+      "url": "https://github.com/stocksoftware/way_of_stock.git",
+      "branch": "master",
+      "revision": "674f9474a09402a1f6c9b503b388a5d987aafd1a"
+    },
+    "vendor/tools/dbt": {
+      "url": "https://github.com/realityforge/dbt.git",
+      "branch": "master",
+      "revision": "24df1e5e0434b8ef1ce2003abab957029cf2e833"
+    }
   }
 }
