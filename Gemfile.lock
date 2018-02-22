@@ -11,7 +11,8 @@ GEM
     arrayfields (4.9.2)
     atoulme-Antwrap (0.7.5)
       rjb (>= 1.0.3)
-    braid (1.0.22)
+    braid (1.1.0)
+      json
       main (>= 4.7.3)
     builder (3.2.2)
     buildr (1.5.5)
@@ -30,6 +31,7 @@ GEM
     chronic (0.10.2)
     diff-lcs (1.2.5)
     fattr (2.3.0)
+    json (2.1.0)
     json_pure (1.8.3)
     main (6.2.2)
       arrayfields (~> 4.7, >= 4.7.4)
@@ -64,7 +66,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  braid (= 1.0.22)
+  braid (= 1.1.0)
   buildr (= 1.5.5)
   dbt (= 0.10.0.dev)!
   pg (= 0.15.1)
