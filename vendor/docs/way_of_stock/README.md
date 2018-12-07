@@ -47,7 +47,7 @@ point for using the tools within the context of our projects.
 * [Buildr](Buildr.md): Build automation tool.
 * [GreenMail](Greenmail.md): An SMTP server that holds emails insteading of sending.
 * [NodeJS](NodeJS.md): Javascript runtime environment and ecosystem.
-* [QBroswerLite](QBrowserLite.md): OpenMQ Message Broker Destination browser.
+* [JMSToolBox](JMSToolBox.md): OpenMQ Message Broker Destination browser.
 * [Postgres](Postgres.md): Postgres database server.
 * [Zim](Zim.md): Tool to automate changes to source code repositories.
 * [Hub](Hub.md): Tool for interacting with GitHub from the command line.

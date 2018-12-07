@@ -14,21 +14,37 @@ To update a repository that is already braided in use:
 
     $ braid update vendor/docs/way_of_stock
 
-Local changes can be made as usual to the braided in repository. When you want to push changes back to
-the source directory, first commit the changes locally, then use:
-
-    $ braid push vendor/docs/way_of_stock/ --branch NameOfMyBranch
-
-After the new branch has been merged into master, it is simply a matter of issuing another
-`braid update` command to update the braid. It is recommended that this is done immediately to avoid merge problems
-down the track.
-
 ## Working with external repositories
 
-Several projects braid in external dependencies such as `domgen`, `dbt` and `rptman` that you will not have direct
-access to. The process to push changes back to these repositories is a little more complex. These repositories
-typically require changes to conform to the "GitHub way" and require a pull request to get changes into the upstream
-repository.
+Local changes can be made made as usual to the braided in repository. Commit the changes locally. Most changes
+should aim to be pushed back to the source repository. There are three basic mechanisms for doing this.
+
+### Repositories you can push to master
+
+For repositories that you have direct access to you can just push the changes directly like;
+
+    $ braid push vendor/docs/way_of_stock
+
+### Realityforge repositories
+
+For `realityforge` repositories you should request to be a collaborator on the repository. This involves asking
+`@realityforge` for collaboration access, then waiting for `@realityforge` to granted it and then accepting access
+in your github settings page. You will be able to create new branches in these repositories but you will not be able
+to push to master without getting the changes reviewed. To push changes to this repository you first push to a new
+branch in the repository and then go to the GitHub web interface and create a pull request (This process will
+likely be streamlined in the future so that it cann all be done from the commandline). Then `@realityforge` will review
+the change and merge it to master. To push local changes to a new branch `MyNewFeature` use;
+
+    $ braid push vendor/tools/domgen --branch MyNewFeature
+
+After the new branch has been merged into master, it is simply a matter of issuing another
+`braid update` command to update the local braid. It is recommended that this is done immediately to avoid merge problems
+down the track.
+
+### Other repositories
+
+Pushing changes back to third party repositories is a little more complex. These repositories typically require
+changes to conform to the "GitHub way" and require a pull request to get changes into the upstream repository.
 
 The first step is to fork the source repository into you own account on GitHub and check out the fork to your local
 filesystem. In the checked out version of the project you need to add a new remote that references the upstream

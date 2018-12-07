@@ -31,6 +31,10 @@ via:
 
     $ git config --global core.autocrlf false
 
+You can also turn off an annoying warning via:
+
+    $ git config --global core.safecrlf false
+
 You can verify the settings are correctly set by listing the values using the command:
 
     $ git config --global -l

@@ -13,7 +13,7 @@
 * NodeJS: See [HowToNodeJS.md](NodeJS.md).
 * Postgres: See [Postgres.md](Postgres.md).
 * LibreOffice:
-* VPN: [Download Cisco AnyConnect mobility client 3.1](https://s3-ap-southeast-2.amazonaws.com/stocksoftware-installers/CiscoAnyConnect/mac/anyconnect-macosx-i386-3.1.06079-k9.dmg).
+* VPN: Go to https://vpn.ffm.vic.gov.au log in and download/install the Mac client
 * Keepass: See [KeePass.md](KeePass.md).
 * Source Tree:
 * Bookmarks: Add all the links on the [External Services](ExternalServices.md) page.

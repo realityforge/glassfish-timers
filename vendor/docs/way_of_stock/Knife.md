@@ -4,9 +4,12 @@
 
     $ sudo apt-get install libxslt-dev
 
-Clone the infrastructure project
+Clone the delwp-infrastructure project
 
     $ bundle install
+    
+    Note, if you have problems installing eventmachine on a Mac then you might need to do:
+    $ bundle config build.eventmachine --with-cppflags=-I$(brew --prefix openssl)/include    
 
 ## DELWP: Register as a client
 Browse to http://chef

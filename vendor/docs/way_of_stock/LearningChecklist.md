@@ -92,6 +92,6 @@ and processes we use day to day.
 
 * Integrate Checkstyle into Buildr.
 * Integrate PMD into Buildr.
-* Integrate Findbugs into Buildr.
+* Integrate Spotbugs into Buildr.
 * Define `ci:commit` task.
 * Update Jenkins to add commit job.

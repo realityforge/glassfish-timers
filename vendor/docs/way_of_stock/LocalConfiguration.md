@@ -19,19 +19,22 @@ i.e `~/.environments.d/common.local.sh` like:
 
     unset DOCKER_DNS
 
-    unset DB_SERVER_PORT
-    unset DB_SERVER_HOST
-    unset DB_SERVER_INSTANCE
-    unset DB_DEFAULT_INSTANCE
-    unset DB_SERVER_USERNAME
-    unset DB_SERVER_PASSWORD
+    export MS_DB_SERVER_HOST=sqlserver.example.com
+    export MS_DB_SERVER_USERNAME=admin
+    export MS_DB_SERVER_PASSWORD=secret
+    unset MS_DB_SERVER_PORT
+
+    export PG_DB_SERVER_HOST=127.0.0.1
+    export PG_DB_SERVER_USERNAME=admin
+    export PG_DB_SERVER_PASSWORD=secret
+    unset PG_DB_SERVER_PORT
 
     export CONFIG_ALLOW_HOSTNAME=true
     export GLASSFISH_HOME=/Users/username/Applications/payara
 
     export OPENMQ_HOST=localhost
 
-    export RPTMAN_ENDPOINT=http://sqlssrs.example.com/webservice
+    export RPTMAN_ENDPOINT=http://sqlssrs.example.com/ReportServer
     export RPTMAN_DOMAIN=example.com
     export RPTMAN_USERNAME=username
     export RPTMAN_PASSWORD=password
@@ -40,22 +43,5 @@ i.e `~/.environments.d/common.local.sh` like:
     export KEYCLOAK_REALM_PUBLIC_KEY="MI..."
     export KEYCLOAK_AUTH_SERVER_URL="http://id.example.com/"
     export KEYCLOAK_ADMIN_PASSWORD=password
-    export KEYCLOAK_TOKEN="ey..."
-
-i.e `~/.environments.d/sqlserver.sh` like:
-
-    source ~/.environments.d/common.local.sh
-
-    export DB_TYPE=
-    export DB_SERVER_USERNAME=admin
-    export DB_SERVER_PASSWORD=secret
-    export DB_SERVER_HOST=sqlserver.example.com
-
-i.e `~/.environments.d/postgres.sh` like:
-
-    source ~/.environments.d/common.local.sh
-
-    export DB_TYPE=pg
-    export DB_SERVER_USERNAME=admin
-    export DB_SERVER_PASSWORD=secret
-    export DB_SERVER_HOST=127.0.0.1
+    export KEYCLOAK_SERVICE_USERNAME=YourUsername
+    export KEYCLOAK_SERVICE_PASSWORD=YourPassword

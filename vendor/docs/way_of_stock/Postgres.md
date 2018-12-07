@@ -23,7 +23,7 @@ The _pgAdmin_ application can be installed by the OSX App Store application.
 ### Linux Instructions
 
 Under Linux you need to install postgres from a custom repository. This is because there is not a
-current version of _PostGis_ in the default repositories. So firt you should uninstall any version
+current version of _PostGis_ in the default repositories. So first you should uninstall any version
 of _Postgres_ that is installed.
 
     $ sudo apt-get remove -f libpq-dev postgres postgres-contrib

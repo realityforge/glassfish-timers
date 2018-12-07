@@ -12,20 +12,7 @@ base directory of the project.
 
 ## Installing nodenv
 
-### OSX Instructions
-
-Under OSX with [Homebrew](Homebrew.md) installed you can install via;
-
-    $ brew update
-    $ brew install nodenv node-build
-
-WARNING: If you install using this mechanism you will get an annoying error message when running
-the `nodenv --version` or `nodenv help` commands. It should have no other issues but if the error
-messages gets annoying follow the linux instructions instead.
-
-### Linux Instructions
-
-Under Linux you need to run;
+You need to run:
 
     $ git clone https://github.com/nodenv/nodenv.git ~/.nodenv
     $ git clone https://github.com/nodenv/node-build.git ~/.nodenv/plugins/node-build
@@ -38,6 +25,7 @@ will still work normally:
 Add `~/.nodenv/bin` to your `$PATH` for access to the `nodenv` command-line utility.
 
     $ echo 'export PATH="$HOME/.nodenv/bin:$PATH"' >> ~/.bashrc
+    $ echo 'eval "$(nodenv init -)"' >> ~/.bashrc
 
 ## Installing NodeJS
 
@@ -54,48 +42,40 @@ To install node, it is as simple as:
 [NPM](https://npmjs.org/) or the _N_ode _P_ackage _M_anager, is the base package management tool
 included within the Node installation. However we have decided to use [Yarn](https://yarnpkg.com/en/)
 as it is faster and has more deterministic behaviour but still uses the repositories and package formats,
-and local filesystem layout as NPM. Yarn has roughly equivalent behaviour to Bundler in the ruby ecosystem
+and local filesystem layout of NPM. Yarn has roughly equivalent behaviour to Bundler in the ruby ecosystem
 (and also has authors in common). It is also the tool promoted by Facebook and Google (as well as many
 other companies with a focus on speed and reliability).
+
+For a list of useful yarn commands see the [usage](https://yarnpkg.com/en/docs/usage) documentation and if
+you already know node/NPM then see the [migrating from node](https://yarnpkg.com/lang/en/docs/migrating-from-npm/)
+documentation.
+
+Yarn can install packages globally or locally and we prefer local packages where possible as it means different
+projects can have different versions of tools. For local package installation Yarn requires a file `package.json`
+to declare the dependencies and will install them into a local cache `./node_modules`.
 
 ### Installing Yarn
 
 The documentation for installing yarn is reasonably comprehensive. See the
-[documentation](https://yarnpkg.com/en/docs/install) for full details. However the notes below should
-be sufficient to get started.
+[documentation](https://yarnpkg.com/en/docs/install) for full details. However the easiest way to install yarn
+is to install it as a global npm package.
 
-#### OSX Instructions
+    $ npm install -g yarn
+    $ nodenv rehash
 
-Under OSX with [Homebrew](Homebrew.md) installed you can install via;
+### Global package installation
 
-    $ brew update
-    $ brew install yarn
-
-#### Linux Instructions
-
-Under Linux you need to run;
-
-    $ curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-    $ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-    $ sudo apt-get update && sudo apt-get install yarn
-
-### Using Yarn
-
-Yarn packages can either be installed globally or locally to the project. Installing it globally is done
-for several of out projects as it avoids the need to define define node specific metadata (i.e. `package.json`,
-`yarn.lock` and `node_modules/*`) in the project. This may change as we start to improve the way we work
-with node. However if you have to add a tool globally you need to run `nodenv rehash` to ensure that `nodenv`
-links the bin into the list of shims made available on the shell.
+Installing packages globally is not recommended and deprecated within our projects. However some projects still
+make use of this feature. Installing globally  avoids the need to define define node specific metadata (i.e.
+`package.json`, `yarn.lock` and `node_modules/*`) in the project. However if you have to add a tool globally you
+need to run `nodenv rehash` to ensure that `nodenv` links the bin into the list of shims made available on
+the shell.
 
 An example of how to install Less.js a CSS preprocessor that we have used is:
 
     $ yarn global add less
     $ yarn global add less-plugin-clean-css
     $ nodenv rehash
-
-For a list of other very useful commands see the [usage](https://yarnpkg.com/en/docs/usage) documentation
-and if you already know node see the [migrating from node](https://yarnpkg.com/lang/en/docs/migrating-from-npm/)
-documentation.
 
 ### Dependency Versioning policy
 

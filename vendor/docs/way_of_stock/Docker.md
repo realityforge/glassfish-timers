@@ -24,11 +24,15 @@ to the run sub-command but a typical command is:
 
     $ docker run --rm --name my_container -i -t stocksoftware:ruby bash
 
-## Bash Completion
+## Bash Completion on a mac
+
+See https://docs.docker.com/compose/completion/
 
     $ brew install bash-completion
     $ echo ". $(brew --prefix)/etc/bash_completion" >> ~/.bash_profile
-    $ wget https://raw.githubusercontent.com/docker/docker/master/contrib/completion/bash/docker -O ~/.docker_completion.sh
+    $ curl -L https://raw.githubusercontent.com/docker/compose/master/contrib/completion/bash/docker-compose -o ~/.bash.d/docker_completion.sh
+    
+    If you are not auto-running everything in ~/.bash.d
     $ echo ". ~/.docker_completion.sh" >> ~/.bash_profile
 
 ### Run-time DNS

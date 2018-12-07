@@ -58,3 +58,17 @@ __docker_machine_ps1 () {
         printf -- "${format}" "${DOCKER_MACHINE_NAME}${status}"
     fi
 }
+
+setup_registry() {
+   eval $(docker-machine env registry)
+   export DOCKER_MACHINE_NAME=registry
+   export REG_IP=`docker-machine ip registry`
+}
+alias denv_registry=setup_registry
+
+setup_minikube() {
+   eval $(minikube docker-env)
+   export DOCKER_MACHINE_NAME=minikube
+}
+alias denv_minikube=setup_minikube
+

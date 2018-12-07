@@ -105,3 +105,7 @@ Rebuild the IntelliJ IDEA project files:
 Rebuild the project and install it in the local repository:
 
     $ DB_TYPE=pg bundle exec buildr ci:setup install
+    
+## Bash completion
+
+Bash completion can be added through http://github.com/jcosmo/buildr-bash-completion

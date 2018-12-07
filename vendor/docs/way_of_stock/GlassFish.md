@@ -3,7 +3,7 @@
 The app server of choice is Payara/GlassFish. [Payara Server](http://www.payara.co.uk/) is a drop in replacement for
 GlassFish Server with the peace of mind of quarterly releases containing enhancements, bug fixes and patches to
 upstream GlassFish Server and dependent libraries including Tyrus, Eclipse Link, Jersey and others. The version of
-Payara we currently use is `4.1.1.164 (Full Java EE)`.
+Payara we currently use is `4.1.2.172 (Full Java EE)`.
 
 ## Download Payara
 
@@ -11,15 +11,14 @@ The product can be downloaded from [http://www.payara.co.uk/downloads](http://ww
 
 This should be downloaded into the directory `~/Applications` and then run:
 
-    $ unzip payara-4.1.1.164.zip && mv payara41 payara-4.1.1.164
+    $ unzip payara-4.1.2.172.zip && mv payara41 payara-4.1.2.172
 
 Create a symlink called `payara` to the longer directory name.
 
-    $ ln -s ~/Applications/payara-4.1.1.164 ~/Applications/payara
+    $ ln -s ~/Applications/payara-4.1.2.172 ~/Applications/payara
 
 Once installed, it's not a bad idea to delete a few modules that are not required:
 
-    $ rm ~/Applications/payara/glassfish/modules/console-updatecenter-plugin.jar
     $ rm ~/Applications/payara/glassfish/modules/phonehome-bootstrap.jar
     $ rm ~/Applications/payara/glassfish/modules/payara-micro-cdi.jar
 
@@ -33,14 +32,19 @@ is to append the following line to `~/.bashrc`.
 ## Configuring and Managing Domains
 
 GlassFish has the concept of domains that are isolated instances of GlassFish that can be started and stopped
-independently. Most projects start up a separate domain from all projects so that they can developed in isolation
-from other projects. Occasionally a project will require the existance of a domain managed by another project and
+independently. Many projects start up a separate domain from all projects so that they can developed in isolation
+from other projects. Sometimes a project will require the existance of a domain managed by another project and
 will deploy artifacts into the other projects domain but this will be documented in the projects README.
 
-Projects will typically have a script `config/setup.sh` that can be sourced to create the domain with all the
-settings required for the project. If present the domain should be able to be created by:
+Projects use [Redfish](https://github.com/realityforge/redfish) to create and update GlassFish domains for local
+development. If a project supports creating a local project-specific domain run the following buildr command to create
+and configure the domain:
 
-    $ source config/setup.sh
+        $ bundle exec buildr redfish:domain:create
+
+Projects can also inject configuration into a running domain by using the command:
+
+        $ bundle exec buildr redfish:domain:update
 
 ## Operating GlassFish from the command-line
 
