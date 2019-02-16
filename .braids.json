@@ -4,7 +4,7 @@
     "vendor/docs/way_of_stock": {
       "url": "https://github.com/stocksoftware/way_of_stock.git",
       "branch": "master",
-      "revision": "3c1d7c94cd2fa55200e7c748b7e5ee5737ca6d41"
+      "revision": "928035fb38cd52331444f2a0841ff2454bad11b9"
     },
     "vendor/tools/dbt": {
       "url": "https://github.com/realityforge/dbt.git",

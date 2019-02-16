@@ -23,7 +23,7 @@ Once the container is running you will be able to access it at
 
 ## Realm setup
 
-A realm must be created to contain your clients.  This will need to be done every time you destroy/recreate the container,
+A realm must be created to contain your clients. This will need to be done every time you destroy/recreate the container,
 but will survive a stop/start of the container.
 
 You can either just use the 'master' realm that is set up by default, or you can create a new one.
@@ -41,7 +41,7 @@ Our development environment has a number of environment variables which need to 
 
 ## Creating clients
 
-Clients are created from within each project.  Make sure your environment vars are set properly (above):
+Clients are created from within each project. Make sure your environment vars are set properly (above):
     
     $ bundle exec buildr keycloak:create
 
@@ -54,7 +54,7 @@ You can add users via the admin console or via the command line:
     $ docker exec keycloak keycloak/bin/add-user-keycloak.sh -u <USERNAME> -p <PASSWORD>
     $ docker restart keycloak
 
-Note that the command line mechanism does not set the firstname/surname/etc attributes.  These will have to be set via the admin console.
+Note that the command line mechanism does not set the firstname/surname/etc attributes. These will have to be set via the admin console.
 
 Creation of users in the non-default realm must be done from the admin console.
 
