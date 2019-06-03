@@ -6,7 +6,7 @@ jdk:
 rvm:
   - 2.3.1
 install:
-  - sudo apt-get install -y freetds-dev
+  - sudo apt-get install -y freetds-bin freetds-common freetds-dev libct4 libsybdb5
   - rvm use 2.3.1
   - gem install bundler
   - bundle install
