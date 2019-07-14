@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'buildr', '= 1.5.7'
+gem 'buildr', '= 1.5.8'
 gem 'braid', '= 1.1.0'
 gem 'tiny_tds', '= 2.1.2' unless ENV['TRAVIS_BUILD_NUMBER']
 gem 'pg', '= 0.15.1'

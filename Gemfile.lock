@@ -15,7 +15,7 @@ GEM
       json
       main (>= 4.7.3)
     builder (3.2.2)
-    buildr (1.5.7)
+    buildr (1.5.8)
       atoulme-Antwrap (= 0.7.5)
       builder (= 3.2.2)
       bundler
@@ -31,7 +31,7 @@ GEM
     chronic (0.10.2)
     diff-lcs (1.2.5)
     fattr (2.4.0)
-    json (2.1.0)
+    json (2.2.0)
     json_pure (1.8.3)
     main (6.2.2)
       arrayfields (~> 4.7, >= 4.7.4)
@@ -57,7 +57,7 @@ PLATFORMS
 
 DEPENDENCIES
   braid (= 1.1.0)
-  buildr (= 1.5.7)
+  buildr (= 1.5.8)
   dbt (= 0.10.0.dev)!
   pg (= 0.15.1)
   tiny_tds (= 2.1.2)
