@@ -6,9 +6,6 @@
     "TIMERS_DB_USERNAME": "timers",
     "TIMERS_DB_PASSWORD": null
   },
-  "properties": {
-    "configs.config.server-config.ejb-container.ejb-timer-service.timer-datasource": "system/jdbc/Timers"
-  },
   "jdbc_connection_pools": {
     "system/jdbc/TimersConnectionPool": {
       "datasourceclassname": "org.postgresql.ds.PGSimpleDataSource",
@@ -25,8 +22,8 @@
         "DatabaseName": "${TIMERS_DB_DATABASE}"
       },
       "resources": {
-        "system/jdbc/Timers": {
-          "description": "Timers resource for EJB Timers subsystem"
+        "jdbc/__TimerPool": {
+          "object_type": "system-all"
         }
       }
     }
