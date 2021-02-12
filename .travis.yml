@@ -6,8 +6,6 @@ jdk:
 rvm:
   - 2.6.6
 install:
-  - gem uninstall bundler -a --force
-  - gem install bundler -v 1.17.3
   - bundle install
 script: buildr clean package DB_TYPE=pg
 git:
