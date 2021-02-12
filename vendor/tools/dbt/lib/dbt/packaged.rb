@@ -15,7 +15,7 @@
 class Dbt #nodoc
 
   def self.jruby_version(options)
-    options[:jruby_version] || (defined?(JRUBY_VERSION) ? JRUBY_VERSION : '1.7.2')
+    options[:jruby_version] || (defined?(JRUBY_VERSION) ? JRUBY_VERSION : '9.2.14.0')
   end
 
   def self.jruby_complete_jar(options)
@@ -97,6 +97,13 @@ class Dbt #nodoc
         end
       end
       raise "Unknown import '#{import_key}'"
+    elsif /^create_with_dataset:/ =~ command
+      dataset_name = command[20, command.length]
+      if database.datasets.collect { |d| d.to_s }.include?(dataset_name)
+        @@runtime.create_with_dataset(database, dataset_name)
+      else
+        raise "Unknown dataset '#{dataset_name}'"
+      end
     elsif /^up/ =~ command
       module_group_key = command[3, command.length]
       module_group = database.module_group_by_name(module_group_key)
@@ -137,6 +144,7 @@ class Dbt #nodoc
       end
     end
     database.datasets.each do |dataset|
+      valid_commands << "create_with_dataset:#{dataset}"
       valid_commands << "datasets:#{dataset}"
     end
 
@@ -210,6 +218,8 @@ database = Dbt.add_database(database_key) do |database|
   database.resource_prefix = 'data'
   database.fixture_dir_name = '#{database.fixture_dir_name}'
   database.datasets_dir_name = '#{database.datasets_dir_name}'
+  database.pre_dataset_dirs = %w(#{database.pre_dataset_dirs.join(' ')})
+  database.post_dataset_dirs = %w(#{database.post_dataset_dirs.join(' ')})
   database.migrations_dir_name = '#{database.migrations_dir_name}'
   database.up_dirs = %w(#{database.up_dirs.join(' ')})
   database.down_dirs = %w(#{database.down_dirs.join(' ')})

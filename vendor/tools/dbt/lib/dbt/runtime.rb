@@ -34,6 +34,20 @@ TXT
       end
     end
 
+    def create_with_dataset(database, dataset_name)
+      create_database(database)
+      init_database(database.key) do
+        perform_pre_create_hooks(database)
+        perform_create_action(database, :up)
+        perform_pre_dataset_hooks(database, dataset_name)
+        perform_load_dataset(database, dataset_name)
+        perform_post_dataset_hooks(database, dataset_name)
+        perform_create_action(database, :finalize)
+        perform_post_create_hooks(database)
+        perform_post_create_migrations_setup(database)
+      end
+    end
+
     def create_by_import(imp)
       database = imp.database
       create_database(database) unless partial_import_completed?
@@ -121,18 +135,9 @@ TXT
 
     def load_dataset(database, dataset_name)
       init_database(database.key) do
-        subdir = "#{database.datasets_dir_name}/#{dataset_name}"
-        fixtures = {}
-        database.repository.modules.each do |module_name|
-          collect_fixtures_from_dirs(database, module_name, subdir, fixtures)
-        end
-
-        database.repository.modules.reverse.each do |module_name|
-          down_fixtures(database, module_name, fixtures)
-        end
-        database.repository.modules.each do |module_name|
-          up_fixtures(database, module_name, fixtures)
-        end
+        perform_pre_dataset_hooks(database, dataset_name)
+        perform_load_dataset(database, dataset_name)
+        perform_post_dataset_hooks(database, dataset_name)
       end
     end
 
@@ -167,7 +172,7 @@ TXT
             emit_fixture(filename, records)
           end
           database.repository.sequence_ordering(module_name).select{|t| filter ? filter.call(t) : true}.each do |sequence_name|
-            info("Dumping #{sequence_name}")
+            info("Exporting fixture for #{clean_table_name(sequence_name)}")
             sequence_value = db.query(dump_sequence_sql(sequence_name))[0]['']
             emit_yaml_file("#{prefix}#{clean_table_name(sequence_name)}.yml", sequence_value)
           end
@@ -198,6 +203,12 @@ TXT
     # Hash the set of files that may be used by any create/import/migrate for the given database
     def calculate_fileset_hash(database)
       hash_files(database, collect_fileset_for_hash(database))
+    end
+
+    def verify_schema(database, schema_name)
+      init_database(database.key) do
+        db.verify_schema schema_name
+      end
     end
 
     private
@@ -409,6 +420,34 @@ TXT
       end
     end
 
+    def perform_pre_dataset_hooks(database, dataset_name)
+      database.pre_dataset_dirs.each do |pre_dir|
+        dir = "#{database.datasets_dir_name}/#{dataset_name}/#{pre_dir}"
+        process_dir_set(database, dir, false, "#{'%-15s' % ''}: #{dir_display_name(dir)}")
+      end
+    end
+
+    def perform_post_dataset_hooks(database, dataset_name)
+      database.post_dataset_dirs.each do |post_dir|
+        dir = "#{database.datasets_dir_name}/#{dataset_name}/#{post_dir}"
+        process_dir_set(database, dir, false, "#{'%-15s' % ''}: #{dir_display_name(dir)}")
+      end
+    end
+
+    def perform_load_dataset(database, dataset_name)
+      subdir = "#{database.datasets_dir_name}/#{dataset_name}"
+      fixtures = {}
+      database.repository.modules.each do |module_name|
+        collect_fixtures_from_dirs(database, module_name, subdir, fixtures)
+      end
+      database.repository.modules.reverse.each do |module_name|
+        down_fixtures(database, module_name, fixtures)
+      end
+      database.repository.modules.each do |module_name|
+        up_fixtures(database, module_name, fixtures)
+      end
+    end
+
     def import(imp, module_name, should_perform_delete)
       ordered_tables = imp.database.repository.table_ordering(module_name)
       ordered_sequences = imp.database.repository.sequence_ordering(module_name)
@@ -428,8 +467,8 @@ TXT
         filesystem_files = dirs.collect { |d| Dir["#{d}/*.yml"] + Dir["#{d}/*.sql"] }.flatten.compact
         ordered_elements.each do |table_name|
           table_name = clean_table_name(table_name)
-          sql_file = /#{table_name}.sql$/
-          yml_file = /#{table_name}.yml$/
+          sql_file = /\/#{table_name}.sql$/
+          yml_file = /\/#{table_name}.yml$/
           filesystem_files = filesystem_files.delete_if { |f| f =~ sql_file || f =~ yml_file }
         end
         raise "Discovered additional files in import directory in database search path. Files: #{filesystem_files.inspect}" unless filesystem_files.empty?
@@ -654,7 +693,10 @@ TXT
       end
       create_hooks = [database.pre_create_dirs, database.post_create_dirs]
       import_hooks = database.imports.values.collect { |i| [i.pre_import_dirs, i.post_import_dirs] }
-      database_wide_dirs = create_hooks + import_hooks
+      base_dataset_hook_dirs = database.datasets.collect { |dataset| "#{database.datasets_dir_name}/#{dataset}" }
+      pre_dataset_hook_dirs = base_dataset_hook_dirs.collect {|d| database.pre_dataset_dirs.collect {|pre|"#{d}/#{pre}" }}
+      post_dataset_hook_dirs = base_dataset_hook_dirs.collect {|d| database.post_dataset_dirs.collect {|post|"#{d}/#{post}" }}
+      database_wide_dirs = create_hooks + import_hooks + pre_dataset_hook_dirs + post_dataset_hook_dirs
       database_wide_dirs.flatten.compact.each do |relative_dir_name|
         target_dir = "#{package_dir}/#{relative_dir_name}"
         files = collect_files(database, relative_dir_name)
@@ -697,28 +739,33 @@ TXT
     end
 
     def run_import_sql(database, table, sql, script_file_name = nil, print_dot = false)
-      sql = filter_sql(sql, database.expanded_filters)
-      sql = sql.gsub(/@@TABLE@@/, table) if table
+      sql = filter_sql(sql, database.expanded_filters('import'))
+      if table
+        sql = sql.gsub(/@@TABLE@@/, table)
+        sql = sql.gsub(/__TABLE__/, table)
+      end
       sql = filter_database_name(sql, /@@SOURCE@@/, database.key, 'import')
+      sql = filter_database_name(sql, /__SOURCE__/, database.key, 'import')
       sql = filter_database_name(sql, /@@TARGET@@/, database.key, Dbt::Config.environment)
+      sql = filter_database_name(sql, /__TARGET__/, database.key, Dbt::Config.environment)
       run_sql_batch(sql, script_file_name, print_dot, true)
     end
 
     def generate_standard_import_sql(table)
-      sql = "INSERT INTO [@@TARGET@@].#{table}("
+      sql = "INSERT INTO [__TARGET__].#{table}("
       columns = db.column_names_for_table(table)
       sql += columns.join(', ')
       sql += ")\n  SELECT "
       sql += columns.join(', ')
-      sql += " FROM [@@SOURCE@@].#{table}\n"
+      sql += " FROM [__SOURCE__].#{table}\n"
       sql
     end
 
     def generate_standard_sequence_import_sql(sequence_name)
       sql = "DECLARE @Next VARCHAR(50);\n"
-      sql += "SELECT @Next = CAST(current_value AS BIGINT) + 1 FROM [@@SOURCE@@].sys.sequences WHERE object_id = OBJECT_ID('[@@SOURCE@@].#{sequence_name}');\n"
+      sql += "SELECT @Next = CAST(current_value AS BIGINT) + 1 FROM [__SOURCE__].sys.sequences WHERE object_id = OBJECT_ID('[__SOURCE__].#{sequence_name}');\n"
       sql += "SET @Next = COALESCE(@Next,'1');"
-      sql += "EXEC('USE [@@TARGET@@]; ALTER SEQUENCE #{sequence_name} RESTART WITH ' + @Next );"
+      sql += "EXEC('USE [__TARGET__]; ALTER SEQUENCE #{sequence_name} RESTART WITH ' + @Next );"
       sql
     end
 

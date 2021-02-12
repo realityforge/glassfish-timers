@@ -34,7 +34,7 @@ class Dbt #nodoc
 
         failed_constraints = []
         repository.data_modules.select { |data_module| data_module.sql? }.each do |data_module|
-          failed_constraints += Dbt.runtime.query(self, "EXEC #{data_module.sql.schema}.spCheckConstraints")
+          failed_constraints += Dbt.runtime.verify_schema(self, data_module.sql.schema)
         end
         if failed_constraints.size > 0
           error_message = "Failed Constraints:\n#{failed_constraints.collect do |row|
@@ -55,14 +55,27 @@ class Dbt #nodoc
 
         repository.data_modules.select { |data_module| data_module.sql? }.each do |data_module|
           data_module.entities.select{|entity| entity.sql? && entity.concrete? && !entity.sql.load_from_fixture? }.each do |entity|
-            file = File.expand_path("#{base_dir}/#{data_module.name}/import/#{entity.sql.qualified_table_name.to_s.gsub('[','').gsub(']','').gsub('"','')}.sql")
+            file = File.expand_path("#{base_dir}/#{data_module.sql.schema}/import/#{entity.sql.qualified_table_name.to_s.gsub('[','').gsub(']','').gsub('"','')}.sql")
             FileUtils.mkdir_p File.dirname(file)
             File.open(file, 'wb') do |f|
               f.write <<-SQL
-INSERT INTO [@@TARGET@@].#{entity.sql.qualified_table_name}(#{entity.attributes.select{|a|a.sql?}.collect{|a|a.sql.quoted_column_name }.join(', ')})
+INSERT INTO [__TARGET__].#{entity.sql.qualified_table_name}(#{entity.attributes.select{|a|a.sql?}.collect{|a|a.sql.quoted_column_name }.join(', ')})
   SELECT #{entity.attributes.select{|a|a.sql?}.collect{|a|a.sql.quoted_column_name }.join(', ')}
-  FROM [@@SOURCE@@].#{entity.sql.qualified_table_name}
+  FROM [__SOURCE__].#{entity.sql.qualified_table_name}
               SQL
+            end
+            entity.attributes.select{|attribute|attribute.sql? && attribute.sql.sequence?}.each do |attribute|
+              sequence_name = attribute.sql.sequence.qualified_sequence_name.to_s.gsub('[','').gsub(']','')
+              parts = sequence_name.split('.')
+              file = File.expand_path("#{base_dir}/#{data_module.sql.schema}/import/#{sequence_name}.sql")
+              FileUtils.mkdir_p File.dirname(file)
+              File.open(file, 'wb') do |f|
+                f.write <<-SQL
+DECLARE @Next VARCHAR(50)
+SELECT @Next = CAST(current_value AS BIGINT) + 1 FROM __SOURCE__.sys.sequences WHERE object_id = OBJECT_ID('[__SOURCE__].#{attribute.sql.sequence.qualified_sequence_name}')
+EXEC ( 'USE __TARGET__; ALTER SEQUENCE #{attribute.sql.sequence.qualified_sequence_name} RESTART WITH ' + @Next )
+                SQL
+              end
             end
           end
         end
@@ -177,6 +190,12 @@ INSERT INTO [@@TARGET@@].#{entity.sql.qualified_table_name}(#{entity.attributes.
       task "#{database.task_prefix}:datasets:#{dataset_name}" => ["#{database.task_prefix}:prepare"] do
         banner("Loading Dataset #{dataset_name}", database.key)
         @@runtime.load_dataset(database, dataset_name)
+      end
+
+      desc "Create the #{database.key} database and load #{dataset_name} dataset during creation."
+      task "#{database.task_prefix}:create_with_dataset:#{dataset_name}" => ["#{database.task_prefix}:prepare"] do
+        banner("Creating Database and loading '#{dataset_name}' dataset", database.key)
+        @@runtime.create_with_dataset(database, dataset_name)
       end
     end
 
