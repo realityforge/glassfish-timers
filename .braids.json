@@ -1,11 +1,6 @@
 {
   "config_version": 1,
   "mirrors": {
-    "vendor/docs/way_of_stock": {
-      "url": "https://github.com/stocksoftware/way_of_stock.git",
-      "branch": "master",
-      "revision": "928035fb38cd52331444f2a0841ff2454bad11b9"
-    },
     "vendor/tools/dbt": {
       "url": "https://github.com/realityforge/dbt.git",
       "branch": "master",
