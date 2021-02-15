@@ -6,6 +6,7 @@ jdk:
 rvm:
   - 2.7.2
 install:
+  - gem install bundler
   - bundle install
 script: buildr clean package DB_TYPE=pg
 git:
