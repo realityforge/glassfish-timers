@@ -24,7 +24,7 @@ define 'glassfish-timers' do
 
   pom.add_apache_v2_license
   pom.add_github_project('realityforge/glassfish-timers')
-  pom.add_developer('realityforge', 'Peter Donald', 'peter@realityforge.org', ['Developer'])
+  pom.add_developer('realityforge', 'Peter Donald')
 
   define 'db' do
     project.no_iml
