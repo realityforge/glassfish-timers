@@ -22,6 +22,8 @@ define 'glassfish-timers' do
   compile.options.source = '1.8'
   compile.options.target = '1.8'
 
+  project.version = ENV['PRODUCT_VERSION'] if ENV['PRODUCT_VERSION']
+
   pom.add_apache_v2_license
   pom.add_github_project('realityforge/glassfish-timers')
   pom.add_developer('realityforge', 'Peter Donald')
