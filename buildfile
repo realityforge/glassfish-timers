@@ -16,6 +16,8 @@ require 'buildr/git_auto_version'
 require 'buildr/gpg'
 require 'buildr/single_intermediate_layout'
 
+Buildr::MavenCentral.define_publish_tasks(:profile_name => 'org.realityforge', :username => 'realityforge')
+
 desc 'GlassfishTimers: GlassFish timers database sql'
 define 'glassfish-timers' do
   project.group = "org.realityforge.glassfish.timers#{ENV['DB_TYPE'] == 'pg' ? '.pg' : ''}"
