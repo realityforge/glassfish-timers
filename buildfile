@@ -32,7 +32,12 @@ define 'glassfish-timers' do
 
   define 'db' do
     project.no_iml
+    doc_dir = doc.target.to_s
+    file(doc_dir) do
+      FileUtils.mkdir_p doc_dir
+    end
     Dbt.define_database_package(:default)
+    package(:javadoc)
   end
 
   define 'domain' do
